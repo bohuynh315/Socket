@@ -1,17 +1,17 @@
-#ifndef ISERVER_H
-#define ISERVER_H
+#ifndef CORE_SERVER_H
+#define CORE_SERVER_H
 
-#include "Utils.h"
-#include "Error.h"
+#include "utils.h"
+#include "error.h"
 
 namespace core {
-    class IServer
+    class server
     {
     public:
-        virtual ~IServer() {}
+        virtual ~server() {}
 
         virtual error_t init() = 0;
-        virtual error_t run() = 0;
+        virtual error_t start() = 0;
         virtual error_t stop() = 0;
 
         // virtual int send() = 0;
@@ -19,8 +19,8 @@ namespace core {
         // virtual int onClientConnect(int clientId) = 0;
         // virtual int onClientDisconnect(int clientId) = 0;
     
-        static Scope<IServer> create(int port);
+        static Scope<server> create(int port);
     };
 }
 
-#endif // ISERVER_H
+#endif // CORE_SERVER_H

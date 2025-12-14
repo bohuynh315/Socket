@@ -1,34 +1,9 @@
-#include "Client.h"
+#include "interface/client.h"
+#include "client_impl.h"
 
 namespace core {
-    Client::Client()
-        : running(false)
+    Scope<client> client::create()
     {
-
-    }
-
-    Client::~Client()
-    {
-
-    }
-
-    int Client::init()
-    {
-    
-        return 0;
-    }
-
-    int Client::run()
-    {
-        running = true;
-
-        return 0;
-    }
-
-    int Client::stop()
-    {
-        running = false;
-
-        return 0;
+        return CreateScope<client_impl>();
     }
 } // namespace core
