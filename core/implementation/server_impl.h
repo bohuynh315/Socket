@@ -8,7 +8,7 @@ namespace core {
     class server_impl : public server
     {
     public:
-        server_impl(const int port);
+        server_impl(const char* address, const int port);
         virtual ~server_impl();
 
         virtual error_t init() override;
@@ -20,6 +20,7 @@ namespace core {
 
     private:
         bool mRunning;
+        const char* mAddressStr;
         int mPort;
         std::thread mThread;
         SocketHandle_t mHandle;

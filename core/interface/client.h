@@ -14,7 +14,7 @@ namespace core {
         virtual error_t start() = 0;
         virtual error_t stop() = 0;
 
-        static Scope<client> create();
+        static Scope<client> create(const char* address, int port);
 
         // virtual int sendRequest(const char* request, char* response, int responseSize) = 0;
 };

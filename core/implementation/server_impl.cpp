@@ -10,14 +10,13 @@
 
 namespace core
 {
-    server_impl::server_impl(const int port)
+    server_impl::server_impl(const char* address, const int port)
         : mRunning(false)
+        , mAddressStr(address)
         , mPort(port)
         , mHandle(0)
     {
-        mAddress.sin_family = AF_INET;
-        mAddress.sin_addr.s_addr = INADDR_ANY;
-        mAddress.sin_port = htons(mPort);
+        
     }
 
     server_impl::~server_impl()
@@ -38,6 +37,13 @@ namespace core
             std::cout << "Failed to create socket\n";
             ret = E_FAILED_TO_CREATE_SOCKET;
             return ret;
+        }
+
+        mAddress.sin_family = AF_INET;
+        mAddress.sin_port = htons(mPort);
+        if (inet_pton(AF_INET, mAddressStr, &mAddress.sin_addr) <= 0) {
+            std::cout << "Invalid address/ Address not supported \n";
+            return E_INVALID_PARAMETER;
         }
 
         int opt = 1;
@@ -90,7 +96,7 @@ namespace core
         {
             struct sockaddr_in clientAddress;
             socklen_t clientAddrLen = sizeof(clientAddress);
-            SocketHandle_t clientSocket = accept(mHandle, (struct sockaddr *)&mAddress, &clientAddrLen);
+            SocketHandle_t clientSocket = accept(mHandle, (struct sockaddr *)&clientAddress, &clientAddrLen);
             if (clientSocket < 0)
             {
                 std::cout << "Failed to accept client connection\n";

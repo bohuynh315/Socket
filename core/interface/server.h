@@ -13,13 +13,8 @@ namespace core {
         virtual error_t init() = 0;
         virtual error_t start() = 0;
         virtual error_t stop() = 0;
-
-        // virtual int send() = 0;
     
-        // virtual int onClientConnect(int clientId) = 0;
-        // virtual int onClientDisconnect(int clientId) = 0;
-    
-        static Scope<server> create(int port);
+        static Scope<server> create(const char* address, const int port);
     };
 }
 

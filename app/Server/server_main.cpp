@@ -1,11 +1,12 @@
 #include "interface/server.h"
 #include <iostream>
 
-#define SEVER_PORT 8080
+#define SERVER_ADDRESS  "127.0.0.1"
+#define SEVER_PORT      8080
 
 int main()
 {
-    core::Scope<core::server> server = core::server::create(SEVER_PORT);
+    core::Scope<core::server> server = core::server::create(SERVER_ADDRESS, SEVER_PORT);
 
     if (server->init() != E_OK) {
         std::cout << "Server initialization failed\n";
