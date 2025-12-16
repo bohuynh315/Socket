@@ -6,17 +6,19 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
+#include "utils.h"
+
 #define BACKLOG 10 /* How many pending connections queue will hold */
 
 namespace core
 {
     server_impl::server_impl(const char* address, const int port)
-        : mRunning(false)
-        , mAddressStr(address)
-        , mPort(port)
+        : server()
+        , mRunning(false)
+        , mEndpoint{address, port}
         , mHandle(0)
     {
-        
+
     }
 
     server_impl::~server_impl()
@@ -27,9 +29,11 @@ namespace core
         }
     }
 
-    error_t server_impl::init()
+    socket_error_t server_impl::start()
     {
-        error_t ret = E_OK;
+        mRunning = true;
+
+        socket_error_t ret = E_OK;
         struct sockaddr_in address;
 
         mHandle = socket(AF_INET, SOCK_STREAM, 0);
@@ -39,57 +43,39 @@ namespace core
             return ret;
         }
 
-        mAddress.sin_family = AF_INET;
-        mAddress.sin_port = htons(mPort);
-        if (inet_pton(AF_INET, mAddressStr, &mAddress.sin_addr) <= 0) {
-            std::cout << "Invalid address/ Address not supported \n";
-            return E_INVALID_PARAMETER;
+        ret = utils::create_address(mEndpoint, mAddress);
+        if (ret != E_OK) {
+            std::cout << "Failed to create address\n";
+            return ret;
         }
 
-        int opt = 1;
-        if (setsockopt(mHandle, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt))) {
+        ret = utils::set_option(mHandle, SO_REUSEADDR, 1);
+        if (ret != E_OK) {
             std::cout << "Failed to set socket options\n";
-            return E_FAILED_TO_CREATE_SOCKET;
+            return ret;
         }
 
-        if (bind(mHandle, (struct sockaddr *)&mAddress, sizeof(mAddress)) < 0) {
+        ret = utils::bind(mHandle, mAddress);
+        if (ret != E_OK) {
             std::cout << "Failed to bind socket\n";
-            return E_FAILED_TO_BIND_SOCKET;
+            return ret;
         }
 
-        if (listen(mHandle, BACKLOG) < 0) {
+        ret = utils::listen(mHandle, BACKLOG);
+        if (ret != E_OK) {
             std::cout << "Failed to listen on socket\n";
-            return E_FAILED_TO_LISTEN_SOCKET;
-        }
-
-        return E_OK;
-    }
-
-    error_t server_impl::start()
-    {
-        mRunning = true;
-
-        if (mHandle <= 0) {
-            std::cout << "Socket is not initialized\n";
-            return E_FAILED_TO_CREATE_SOCKET;
+            return ret;
         }
 
         mThread = std::thread([this]() {
-            this->runLoop();
+            this->run_loop();
         });
         // mThread.detach();
 
         return E_OK;
     }
 
-    error_t server_impl::stop()
-    {
-        mRunning = false;
-
-        return E_OK;
-    }
-
-    void server_impl::runLoop()
+    void server_impl::run_loop()
     {
         // Placeholder for server main loop logic
         while (mRunning)

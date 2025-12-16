@@ -11,17 +11,14 @@ namespace core {
         server_impl(const char* address, const int port);
         virtual ~server_impl();
 
-        virtual error_t init() override;
-        virtual error_t start() override;
-        virtual error_t stop() override;
+        virtual socket_error_t start() override;
 
     private:
-        void runLoop();
+        void run_loop();
 
     private:
         bool mRunning;
-        const char* mAddressStr;
-        int mPort;
+        endpoint_t mEndpoint;
         std::thread mThread;
         SocketHandle_t mHandle;
         SocketAddress_t mAddress;
