@@ -3,7 +3,7 @@
 #include <arpa/inet.h>
 #include <iostream>
 
-#include "utils.h"
+#include "utils/socket_utils.h"
 
 namespace core {
     client_impl::client_impl(const char* address, int port)
@@ -32,13 +32,13 @@ namespace core {
         }
 
         // Connect to server
-        ret = utils::create_address(mEndpoint, mServerAddr);
+        ret = socket_utils::create_address(mEndpoint, mServerAddr);
         if (ret != E_OK) {
             std::cout << "Failed to create address\n";
             return ret;
         }
 
-        ret = utils::connect(mHandle, mServerAddr);
+        ret = socket_utils::connect(mHandle, mServerAddr);
         if (ret != E_OK) {
             std::cout << "Failed to connect to server\n";
             return ret;

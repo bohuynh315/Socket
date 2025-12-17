@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
-#include "utils.h"
+#include "utils/socket_utils.h"
 
 #define BACKLOG 10 /* How many pending connections queue will hold */
 
@@ -43,25 +43,25 @@ namespace core
             return ret;
         }
 
-        ret = utils::create_address(mEndpoint, mAddress);
+        ret = socket_utils::create_address(mEndpoint, mAddress);
         if (ret != E_OK) {
             std::cout << "Failed to create address\n";
             return ret;
         }
 
-        ret = utils::set_option(mHandle, SO_REUSEADDR, 1);
+        ret = socket_utils::set_option(mHandle, SO_REUSEADDR, 1);
         if (ret != E_OK) {
             std::cout << "Failed to set socket options\n";
             return ret;
         }
 
-        ret = utils::bind(mHandle, mAddress);
+        ret = socket_utils::bind(mHandle, mAddress);
         if (ret != E_OK) {
             std::cout << "Failed to bind socket\n";
             return ret;
         }
 
-        ret = utils::listen(mHandle, BACKLOG);
+        ret = socket_utils::listen(mHandle, BACKLOG);
         if (ret != E_OK) {
             std::cout << "Failed to listen on socket\n";
             return ret;
