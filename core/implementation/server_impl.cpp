@@ -96,6 +96,8 @@ namespace core
 
             LOG_INFO << "Client connected\n";
 
+            mClients[clientSocket] = clientAddress;
+
             mThreadPool.enqueue_task([&]() {
                 // Handle client communication here
                 while(true) {
@@ -106,16 +108,29 @@ namespace core
                     }
                     LOG_ERROR << "Received from client: " << std::string(buffer, bytesRead) << "\n";
 
-                    // Echo back to client
-                    // send(clientSocket, buffer, bytesRead, 0);
+                    broadcast_message(clientSocket, buffer, bytesRead);
                 }
 
+                mClients.erase(clientSocket);
                 close(clientSocket);
+
                 LOG_INFO << "Client ("
                          << inet_ntoa(clientAddress.sin_addr)
                          << ":" << ntohs(clientAddress.sin_port)
                          << ") has been disconnected\n";
             });
+        }
+    }
+
+    void server_impl::broadcast_message(const SocketHandle_t& sender, const char* message, const size_t length)
+    {
+        for (const auto& client : mClients)
+        {
+            SocketHandle_t clientSocket = client.first;
+            if (clientSocket != sender)
+            {
+                send(clientSocket, message, length, 0);
+            }
         }
     }
 } // namespace core

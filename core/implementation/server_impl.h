@@ -16,6 +16,7 @@ namespace core {
 
     private:
         void run_loop();
+        void broadcast_message(const SocketHandle_t& sender, const char* message, const size_t length);
 
     private:
         bool mRunning;
@@ -24,6 +25,7 @@ namespace core {
         std::thread mThread;
         SocketHandle_t mHandle;
         SocketAddress_t mAddress;
+        std::unordered_map<SocketHandle_t, SocketAddress_t> mClients;
     };
 }
 
