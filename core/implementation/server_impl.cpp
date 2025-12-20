@@ -1,12 +1,12 @@
 #include "server_impl.h"
 
-#include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
 #include <arpa/inet.h>
 
 #include "utils/socket_utils.h"
+#include "interface/logger.h"
 
 #define BACKLOG 10 /* How many pending connections queue will hold */
 
@@ -39,32 +39,32 @@ namespace core
 
         mHandle = socket(AF_INET, SOCK_STREAM, 0);
         if (mHandle < 0) {
-            std::cout << "Failed to create socket\n";
+            LOG_ERROR << "Failed to create socket\n";
             ret = E_FAILED_TO_CREATE_SOCKET;
             return ret;
         }
 
         ret = socket_utils::create_address(mEndpoint, mAddress);
         if (ret != E_OK) {
-            std::cout << "Failed to create address\n";
+            LOG_ERROR << "Failed to create address\n";
             return ret;
         }
 
         ret = socket_utils::set_option(mHandle, SO_REUSEADDR, 1);
         if (ret != E_OK) {
-            std::cout << "Failed to set socket options\n";
+            LOG_ERROR << "Failed to set socket options\n";
             return ret;
         }
 
         ret = socket_utils::bind(mHandle, mAddress);
         if (ret != E_OK) {
-            std::cout << "Failed to bind socket\n";
+            LOG_ERROR << "Failed to bind socket\n";
             return ret;
         }
 
         ret = socket_utils::listen(mHandle, BACKLOG);
         if (ret != E_OK) {
-            std::cout << "Failed to listen on socket\n";
+            LOG_ERROR << "Failed to listen on socket\n";
             return ret;
         }
 
@@ -85,16 +85,16 @@ namespace core
             SocketHandle_t clientSocket = accept(mHandle, (struct sockaddr *)&clientAddress, &clientAddrLen);
             if (clientSocket < 0)
             {
-                std::cout << "Failed to accept client connection\n";
+                LOG_ERROR << "Failed to accept client connection\n";
                 continue;
             }
 
-            std::cout << "Client connected from "
-                      << inet_ntoa(clientAddress.sin_addr)
-                      << ":" << ntohs(clientAddress.sin_port)
-                      << "\n";
+            LOG_INFO << "Client connected from "
+                     << inet_ntoa(clientAddress.sin_addr)
+                     << ":" << ntohs(clientAddress.sin_port)
+                     << "\n";
 
-            std::cout << "Client connected\n";
+            LOG_INFO << "Client connected\n";
 
             mThreadPool.enqueue_task([&]() {
                 // Handle client communication here
@@ -104,17 +104,17 @@ namespace core
                     if (bytesRead <= 0) {
                         break; // Connection closed or error
                     }
-                    std::cout << "Received from client: " << std::string(buffer, bytesRead) << "\n";
+                    LOG_ERROR << "Received from client: " << std::string(buffer, bytesRead) << "\n";
 
                     // Echo back to client
                     // send(clientSocket, buffer, bytesRead, 0);
                 }
 
                 close(clientSocket);
-                std::cout << "Client ("
-                          << inet_ntoa(clientAddress.sin_addr)
-                          << ":" << ntohs(clientAddress.sin_port)
-                          << ") has been disconnected\n";
+                LOG_INFO << "Client ("
+                         << inet_ntoa(clientAddress.sin_addr)
+                         << ":" << ntohs(clientAddress.sin_port)
+                         << ") has been disconnected\n";
             });
         }
     }

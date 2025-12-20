@@ -1,9 +1,9 @@
 #include "client_impl.h"
 
 #include <arpa/inet.h>
-#include <iostream>
 
 #include "utils/socket_utils.h"
+#include "interface/logger.h"
 
 namespace core {
     client_impl::client_impl(const char* address, int port)
@@ -27,20 +27,20 @@ namespace core {
 
         mHandle = socket(AF_INET, SOCK_STREAM, 0);
         if (mHandle < 0) {
-            std::cout << "Failed to create socket\n";
+            LOG_ERROR << "Failed to create socket\n";
             return E_FAILED_TO_CREATE_SOCKET;
         }
 
         // Connect to server
         ret = socket_utils::create_address(mEndpoint, mServerAddr);
         if (ret != E_OK) {
-            std::cout << "Failed to create address\n";
+            LOG_ERROR << "Failed to create address\n";
             return ret;
         }
 
         ret = socket_utils::connect(mHandle, mServerAddr);
         if (ret != E_OK) {
-            std::cout << "Failed to connect to server\n";
+            LOG_ERROR << "Failed to connect to server\n";
             return ret;
         }
 
