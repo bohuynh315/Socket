@@ -27,6 +27,7 @@ namespace core
         {
             mThread.join();
         }
+        close(mHandle);
     }
 
     socket_error_t server_impl::start()
@@ -77,7 +78,6 @@ namespace core
 
     void server_impl::run_loop()
     {
-        // Placeholder for server main loop logic
         while (mRunning)
         {
             struct sockaddr_in clientAddress;
@@ -95,9 +95,27 @@ namespace core
                       << "\n";
 
             std::cout << "Client connected\n";
-            // Here you would typically create a Client instance and handle communication
-            // For simplicity, we just close the socket immediately
-            close(clientSocket);
+
+            mThreadPool.enqueue_task([&]() {
+                // Handle client communication here
+                while(true) {
+                    char buffer[1024] = {0};
+                    ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+                    if (bytesRead <= 0) {
+                        break; // Connection closed or error
+                    }
+                    std::cout << "Received from client: " << std::string(buffer, bytesRead) << "\n";
+
+                    // Echo back to client
+                    // send(clientSocket, buffer, bytesRead, 0);
+                }
+
+                close(clientSocket);
+                std::cout << "Client ("
+                          << inet_ntoa(clientAddress.sin_addr)
+                          << ":" << ntohs(clientAddress.sin_port)
+                          << ") has been disconnected\n";
+            });
         }
     }
 } // namespace core

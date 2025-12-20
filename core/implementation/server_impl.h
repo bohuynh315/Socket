@@ -2,6 +2,7 @@
 #define SERVER_IMPL_H
 
 #include "interface/server.h"
+#include "utils/thread_pool.h"
 #include <thread>
 
 namespace core {
@@ -18,6 +19,7 @@ namespace core {
 
     private:
         bool mRunning;
+        thread_pool mThreadPool;
         endpoint_t mEndpoint;
         std::thread mThread;
         SocketHandle_t mHandle;
