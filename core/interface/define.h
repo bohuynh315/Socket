@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <netinet/in.h>
+#include <functional>
 
 typedef int SocketHandle_t;
 typedef struct sockaddr_in SocketAddress_t;
@@ -16,6 +17,8 @@ typedef struct {
     const char* ip;
     int port;
 } endpoint_t;
+
+typedef std::function<void(const char* message, const size_t length)> message_handler_t;
 
 namespace core
 {

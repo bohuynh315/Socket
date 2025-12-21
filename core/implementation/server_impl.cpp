@@ -23,10 +23,6 @@ namespace core
 
     server_impl::~server_impl()
     {
-        if (mThread.joinable())
-        {
-            mThread.join();
-        }
         close(mHandle);
     }
 
@@ -68,10 +64,7 @@ namespace core
             return ret;
         }
 
-        mThread = std::thread([this]() {
-            this->run_loop();
-        });
-        // mThread.detach();
+        run_loop();
 
         return E_OK;
     }
@@ -98,15 +91,20 @@ namespace core
 
             mClients[clientSocket] = clientAddress;
 
-            mThreadPool.enqueue_task([&]() {
+            mThreadPool.enqueue_task([clientSocket, clientAddress, this]() {
                 // Handle client communication here
+                LOG_INFO << "New task for client communication\n";
                 while(true) {
                     char buffer[1024] = {0};
                     ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
                     if (bytesRead <= 0) {
                         break; // Connection closed or error
                     }
-                    LOG_ERROR << "Received from client: " << std::string(buffer, bytesRead) << "\n";
+                    LOG_INFO << "Received from client ("
+                              << inet_ntoa(clientAddress.sin_addr)
+                              << ":" << ntohs(clientAddress.sin_port)
+                              << "): "
+                              << std::string(buffer, bytesRead) << "\n";
 
                     broadcast_message(clientSocket, buffer, bytesRead);
                 }

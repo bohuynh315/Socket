@@ -12,14 +12,25 @@ namespace core {
         virtual ~client_impl();
 
         virtual socket_error_t start() override;
+        virtual socket_error_t register_message_handler(const message_handler_t &handler) override;
 
     private:
-        bool running;
+        void receive_loop();
+        void send_loop();
+
+    private:
+        bool mRunning;
         endpoint_t mEndpoint;
         std::thread mThread;
         SocketHandle_t mHandle;
         SocketAddress_t mServerAddr;
 
+        std::thread mReceiveThread;
+        std::mutex mReceiveMutex;
+
+        // Message handler
+        std::mutex mHandlerMutex;
+        message_handler_t mMessageHandler;
     };
 }
 

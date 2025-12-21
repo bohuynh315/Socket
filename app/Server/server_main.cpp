@@ -15,5 +15,6 @@ int main()
         return -1;
     }
 
+    LOG_INFO << "Server is running";
     return 0;
 }

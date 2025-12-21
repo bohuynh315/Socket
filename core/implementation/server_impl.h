@@ -22,7 +22,6 @@ namespace core {
         bool mRunning;
         thread_pool mThreadPool;
         endpoint_t mEndpoint;
-        std::thread mThread;
         SocketHandle_t mHandle;
         SocketAddress_t mAddress;
         std::unordered_map<SocketHandle_t, SocketAddress_t> mClients;

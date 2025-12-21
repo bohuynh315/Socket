@@ -12,6 +12,7 @@ namespace core
         virtual ~client() {}
 
         virtual socket_error_t start() = 0;
+        virtual socket_error_t register_message_handler(const message_handler_t &handler) = 0;
 
         static Scope<client> create(const char* address, int port);
     };
