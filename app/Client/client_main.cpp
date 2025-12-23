@@ -1,5 +1,5 @@
-#include "interface/client.h"
-#include "interface/logger.h"
+#include "socket/client.h"
+#include "logger.h"
 
 #define SERVER_ADDRESS  "127.0.0.1"
 #define SERVER_PORT     8080

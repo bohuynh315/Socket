@@ -1,8 +1,8 @@
 #ifndef SOCKET_UTILS_H
 #define SOCKET_UTILS_H
 
-#include "interface/error.h"
-#include "interface/define.h"
+#include "error.h"
+#include "define.h"
 
 namespace core
 {

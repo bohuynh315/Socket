@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 #include "utils/socket_utils.h"
-#include "interface/logger.h"
+#include "logger.h"
 
 namespace core {
     client_impl::client_impl(const char* address, int port)

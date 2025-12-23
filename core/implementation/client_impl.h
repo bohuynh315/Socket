@@ -1,7 +1,7 @@
 #ifndef CLIENT_IMPL_H
 #define CLIENT_IMPL_H
 
-#include "interface/client.h"
+#include "socket/client.h"
 #include <thread>
 
 namespace core {
