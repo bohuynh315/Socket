@@ -3,6 +3,8 @@
 
 #include "window.h"
 
+#include "event/application_event.h"
+
 namespace core
 {
     typedef struct
@@ -17,8 +19,8 @@ namespace core
     public:
         virtual ~application() = default;
 
-        virtual void on_init() = 0;
-        virtual void on_shutdown() = 0;
+        virtual void onInit() = 0;
+        virtual void onShutDown() = 0;
         static application& get() { return *sInstance; }
 
         void run();
@@ -26,6 +28,10 @@ namespace core
     public:
         application() = default;
         application(const app_spec_t &);
+
+    private:
+        void onEvent(event& e);
+        bool onWindowClosed(window_close_event& e);
 
     private:
         app_spec_t mSpec;

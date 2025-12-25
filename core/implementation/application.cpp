@@ -14,15 +14,28 @@ namespace core
         win_spec.mWidth = spec.width;
         win_spec.mHeight = spec.height;
         mWindow = window::create(win_spec);
+        mWindow->set_event_callback(BIND_EVENT_FUNCTION(onEvent));
     }
 
     void application::run()
     {
-        on_init();
+        onInit();
         while (mRunning)
         {
-            mWindow->on_update();
+            mWindow->onUpdate();
         }
-        on_shutdown();
+        onShutDown();
+    }
+
+    void application::onEvent(event& e)
+    {
+        event_dispatcher dispatcher(e);
+        dispatcher.dispatch<window_close_event>(BIND_EVENT_FUNCTION(onWindowClosed));
+    }
+
+    bool application::onWindowClosed(window_close_event& e)
+    {
+        mRunning = false;
+        return false;
     }
 }

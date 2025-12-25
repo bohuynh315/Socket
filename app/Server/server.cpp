@@ -19,7 +19,7 @@ public:
 
     }
 
-    virtual void on_init() override
+    virtual void onInit() override
     {
         LOG_INFO << "Server is initialized\n";
 
@@ -37,7 +37,7 @@ public:
         // }
     }
 
-    virtual void on_shutdown() override
+    virtual void onShutDown() override
     {
         LOG_INFO << "Client is shutting down\n";
     }

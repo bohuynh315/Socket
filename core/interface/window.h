@@ -2,6 +2,7 @@
 #define CORE_WINDOW_H
 
 #include "define.h"
+#include "event.h"
 
 namespace core
 {
@@ -26,10 +27,13 @@ namespace core
     class window
     {
     public:
+        using EventCallback = std::function<void(event&)>;
+
         virtual ~window() = default;
-        virtual void on_update() = 0;
+        virtual void onUpdate() = 0;
 
         virtual void* get_native_window() = 0;
+        virtual void set_event_callback(const EventCallback& callback) = 0;
 
         static Scope<window> create(const window_spec& spec = window_spec());
     };

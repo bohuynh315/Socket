@@ -2,6 +2,8 @@
 
 #include "logger.h"
 
+#include "event/application_event.h"
+
 namespace core
 {
     window_glfw::window_glfw(const window_spec &spec)
@@ -47,6 +49,15 @@ namespace core
 
         mContext = graphic_context::create(mWindow);
         mContext->init();
+
+        glfwSetWindowUserPointer(mWindow, &mData);
+
+        glfwSetWindowCloseCallback(mWindow, [](GLFWwindow* window) {
+            window_data *data = (window_data*)glfwGetWindowUserPointer(window);
+
+            window_close_event event;
+            data->event_callback(event);
+        });
     }
 
     void window_glfw::shutdown()
@@ -54,7 +65,7 @@ namespace core
         glfwTerminate();
     }
 
-    void window_glfw::on_update()
+    void window_glfw::onUpdate()
     {
         mContext->swap_buffers();
         glfwPollEvents();

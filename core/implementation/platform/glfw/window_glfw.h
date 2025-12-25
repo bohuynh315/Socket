@@ -13,8 +13,9 @@ namespace core
         explicit window_glfw(const window_spec& spec);
         virtual ~window_glfw();
 
-        virtual void on_update() override;
+        virtual void onUpdate() override;
         virtual void* get_native_window() override { return mWindow; }
+        virtual void set_event_callback(const EventCallback& callback) override { mData.event_callback = callback; }
 
     private:
         void init(const window_spec& spec);
@@ -28,7 +29,7 @@ namespace core
         {
             const char* title;
             int width, height;
-            // Callback
+            EventCallback event_callback;
         } window_data_t;
         window_data_t mData;
     };
