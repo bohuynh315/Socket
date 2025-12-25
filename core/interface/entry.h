@@ -8,7 +8,7 @@ int main(int argc, char** argv)
     core::application* app = core::create();
     app->run();
 
-    delete app;
+    FREE_MEMORY(app);
     return 0;
 };
 

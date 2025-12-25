@@ -39,4 +39,6 @@ namespace core
     }
 }
 
+#define FREE_MEMORY(memory) if (memory != nullptr) { delete memory; memory = nullptr; }
+
 #endif // CORE_DEFINE_H
