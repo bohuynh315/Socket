@@ -18,7 +18,6 @@ namespace core
 
         }
 
-    private:
         std::string mTitle;
         uint32_t mWidth;
         uint32_t mHeight;

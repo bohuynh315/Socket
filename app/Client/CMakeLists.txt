@@ -1,4 +1,4 @@
-add_executable(Client client_main.cpp)
+add_executable(Client client.cpp)
 
 target_link_libraries(Client PRIVATE core)
 
@@ -8,5 +8,5 @@ target_include_directories(Client PRIVATE
 )
 
 set_target_properties(Client PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../bin
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
 )

@@ -5,6 +5,6 @@ namespace core
 {
     Scope<window> window::create(const window_spec& spec)
     {
-        return CreateScope<window_glfw>();
+        return CreateScope<window_glfw>(spec);
     }
 }

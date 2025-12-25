@@ -1,4 +1,4 @@
-add_executable(Server server_main.cpp)
+add_executable(Server server.cpp)
 
 target_link_libraries(Server PRIVATE core)
 
@@ -8,5 +8,5 @@ target_include_directories(Server PRIVATE
 )
 
 set_target_properties(Server PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../bin
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
 )

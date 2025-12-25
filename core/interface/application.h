@@ -1,6 +1,8 @@
 #ifndef CORE_APPLICATION_H
 #define CORE_APPLICATION_H
 
+#include "window.h"
+
 namespace core
 {
     typedef struct
@@ -9,19 +11,32 @@ namespace core
         int height;
         const char* title;
     } app_spec_t;
-    
+
     class application
     {
     public:
         virtual ~application() = default;
 
-    private:
+        virtual void on_init() = 0;
+        virtual void on_shutdown() = 0;
+        static application& get() { return *sInstance; }
+
+        void run();
+
+    public:
         application() = default;
-        application(const app_spec_t&);
-    
+        application(const app_spec_t &);
+
     private:
-        
+        app_spec_t mSpec;
+        bool mRunning;
+        Scope<window> mWindow;
+
+    private:
+        static application *sInstance;
     };
+
+    extern application* create();
 }
 
 #endif // CORE_APPLICATION_H
