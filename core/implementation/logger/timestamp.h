@@ -8,10 +8,10 @@
 
 namespace core
 {
-    class timestamp
+    class TimeStamp
     {
     public:
-        timestamp()
+        TimeStamp()
         {
             mTimePoint = std::chrono::system_clock::now();
         }

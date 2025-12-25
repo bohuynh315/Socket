@@ -7,12 +7,12 @@
 
 namespace core
 {
-    opengl_context::opengl_context(GLFWwindow *window)
+    OpenGLContext::OpenGLContext(GLFWwindow *window)
         : mWindow(window)
     {
     }
 
-    void opengl_context::init()
+    void OpenGLContext::init()
     {
         glfwMakeContextCurrent(mWindow);
         int statue = gladLoadGL((GLADloadfunc)glfwGetProcAddress);
@@ -22,7 +22,7 @@ namespace core
         }
     }
 
-    void opengl_context::swap_buffers()
+    void OpenGLContext::swap_buffers()
     {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);

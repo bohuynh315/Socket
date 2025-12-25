@@ -5,11 +5,11 @@
 #include <thread>
 
 namespace core {
-    class client_impl : public client
+    class ClientImpl : public client
     {
     public:
-        client_impl(const char* address, int port);
-        virtual ~client_impl();
+        ClientImpl(const char* address, int port);
+        virtual ~ClientImpl();
 
         virtual socket_error_t start() override;
         virtual socket_error_t register_message_handler(const message_handler_t &handler) override;

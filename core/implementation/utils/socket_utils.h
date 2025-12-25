@@ -1,12 +1,12 @@
-#ifndef SOCKET_UTILS_H
-#define SOCKET_UTILS_H
+#ifndef CORE_SOCKET_UTILS_H
+#define CORE_SOCKET_UTILS_H
 
 #include "error.h"
 #include "define.h"
 
 namespace core
 {
-    class socket_utils
+    class SocketUtils
     {
     public:
         static socket_error_t set_option(SocketHandle_t socket, int option, int value);
@@ -17,4 +17,4 @@ namespace core
     };
 } // namespace core
 
-#endif // SOCKET_UTILS_H
+#endif // CORE_SOCKET_UTILS_H

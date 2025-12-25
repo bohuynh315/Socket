@@ -3,8 +3,8 @@
 
 namespace core
 {
-    Scope<graphic_context> graphic_context::create(void* native_window)
+    Scope<GraphicContext> GraphicContext::create(void* native_window)
     {
-        return CreateScope<opengl_context>(static_cast<GLFWwindow*>(native_window));
+        return CreateScope<OpenGLContext>(static_cast<GLFWwindow*>(native_window));
     }
 } // namespace core

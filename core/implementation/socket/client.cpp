@@ -5,6 +5,6 @@ namespace core
 {
     Scope<client> client::create(const char* address, int port)
     {
-        return CreateScope<client_impl>(address, port);
+        return CreateScope<ClientImpl>(address, port);
     }
 } // namespace core

@@ -12,7 +12,7 @@
 
 namespace core
 {
-    server_impl::server_impl(const char* address, const int port)
+    ServerImpl::ServerImpl(const char* address, const int port)
         : server()
         , mRunning(false)
         , mEndpoint{address, port}
@@ -21,12 +21,12 @@ namespace core
 
     }
 
-    server_impl::~server_impl()
+    ServerImpl::~ServerImpl()
     {
         close(mHandle);
     }
 
-    socket_error_t server_impl::start()
+    socket_error_t ServerImpl::start()
     {
         mRunning = true;
 
@@ -40,25 +40,25 @@ namespace core
             return ret;
         }
 
-        ret = socket_utils::create_address(mEndpoint, mAddress);
+        ret = SocketUtils::create_address(mEndpoint, mAddress);
         if (ret != E_OK) {
             LOG_ERROR << "Failed to create address\n";
             return ret;
         }
 
-        ret = socket_utils::set_option(mHandle, SO_REUSEADDR, 1);
+        ret = SocketUtils::set_option(mHandle, SO_REUSEADDR, 1);
         if (ret != E_OK) {
             LOG_ERROR << "Failed to set socket options\n";
             return ret;
         }
 
-        ret = socket_utils::bind(mHandle, mAddress);
+        ret = SocketUtils::bind(mHandle, mAddress);
         if (ret != E_OK) {
             LOG_ERROR << "Failed to bind socket\n";
             return ret;
         }
 
-        ret = socket_utils::listen(mHandle, BACKLOG);
+        ret = SocketUtils::listen(mHandle, BACKLOG);
         if (ret != E_OK) {
             LOG_ERROR << "Failed to listen on socket\n";
             return ret;
@@ -69,7 +69,7 @@ namespace core
         return E_OK;
     }
 
-    void server_impl::run_loop()
+    void ServerImpl::run_loop()
     {
         while (mRunning)
         {
@@ -120,7 +120,7 @@ namespace core
         }
     }
 
-    void server_impl::broadcast_message(const SocketHandle_t& sender, const char* message, const size_t length)
+    void ServerImpl::broadcast_message(const SocketHandle_t& sender, const char* message, const size_t length)
     {
         for (const auto& client : mClients)
         {

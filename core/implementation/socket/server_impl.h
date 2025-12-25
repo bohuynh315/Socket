@@ -6,11 +6,11 @@
 #include <thread>
 
 namespace core {
-    class server_impl : public server
+    class ServerImpl : public server
     {
     public:
-        server_impl(const char* address, const int port);
-        virtual ~server_impl();
+        ServerImpl(const char* address, const int port);
+        virtual ~ServerImpl();
 
         virtual socket_error_t start() override;
 
@@ -20,7 +20,7 @@ namespace core {
 
     private:
         bool mRunning;
-        thread_pool mThreadPool;
+        ThreadPool mThreadPool;
         endpoint_t mEndpoint;
         SocketHandle_t mHandle;
         SocketAddress_t mAddress;

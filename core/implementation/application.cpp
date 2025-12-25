@@ -2,22 +2,23 @@
 
 namespace core
 {
-    application *application::sInstance = nullptr;
+    Application *Application::sInstance = nullptr;
 
-    application::application(const app_spec_t &spec)
-        : mSpec(spec), mRunning(true)
+    Application::Application(const app_spec_t &spec)
+        : mSpec(spec)
+        , mRunning(true)
     {
         sInstance = this;
 
-        window_spec win_spec;
+        WindowSpecs win_spec;
         win_spec.mTitle = spec.title;
         win_spec.mWidth = spec.width;
         win_spec.mHeight = spec.height;
-        mWindow = window::create(win_spec);
-        mWindow->set_event_callback(BIND_EVENT_FUNCTION(onEvent));
+        mWindow = Window::create(win_spec);
+        mWindow->setEventCallback(BIND_EVENT_FUNCTION(onEvent));
     }
 
-    void application::run()
+    void Application::run()
     {
         onInit();
         while (mRunning)
@@ -27,13 +28,13 @@ namespace core
         onShutDown();
     }
 
-    void application::onEvent(event& e)
+    void Application::onEvent(Event& e)
     {
-        event_dispatcher dispatcher(e);
-        dispatcher.dispatch<window_close_event>(BIND_EVENT_FUNCTION(onWindowClosed));
+        EventDispatcher dispatcher(e);
+        dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FUNCTION(onWindowClosed));
     }
 
-    bool application::onWindowClosed(window_close_event& e)
+    bool Application::onWindowClosed(WindowCloseEvent& e)
     {
         mRunning = false;
         return false;

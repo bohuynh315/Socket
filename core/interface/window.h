@@ -6,10 +6,10 @@
 
 namespace core
 {
-    class window_spec
+    class WindowSpecs
     {
     public:
-        window_spec(const std::string& title = "window",
+        WindowSpecs(const std::string& title = "window",
                     const uint32_t width = 480,
                     const uint32_t height = 600)
             : mTitle(title)
@@ -24,18 +24,18 @@ namespace core
         uint32_t mHeight;
     };
     
-    class window
+    class Window
     {
     public:
-        using EventCallback = std::function<void(event&)>;
+        using EventCallback = std::function<void(Event&)>;
 
-        virtual ~window() = default;
+        virtual ~Window() = default;
         virtual void onUpdate() = 0;
 
-        virtual void* get_native_window() = 0;
-        virtual void set_event_callback(const EventCallback& callback) = 0;
+        virtual void* getNativeWindow() = 0;
+        virtual void setEventCallback(const EventCallback& callback) = 0;
 
-        static Scope<window> create(const window_spec& spec = window_spec());
+        static Scope<Window> create(const WindowSpecs& spec = WindowSpecs());
     };
 }
 

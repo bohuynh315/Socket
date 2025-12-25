@@ -7,7 +7,7 @@
 #include "logger.h"
 
 namespace core {
-    client_impl::client_impl(const char* address, int port)
+    ClientImpl::ClientImpl(const char* address, int port)
         : client()
         , mRunning(false)
         , mEndpoint{address, port}
@@ -16,7 +16,7 @@ namespace core {
 
     }
 
-    client_impl::~client_impl()
+    ClientImpl::~ClientImpl()
     {
         mRunning = false;
 
@@ -28,7 +28,7 @@ namespace core {
         close(mHandle);
     }
 
-    socket_error_t client_impl::start()
+    socket_error_t ClientImpl::start()
     {
         socket_error_t ret = E_OK;
         mRunning = true;
@@ -40,14 +40,14 @@ namespace core {
         }
 
         // Connect to server
-        ret = socket_utils::create_address(mEndpoint, mServerAddr);
+        ret = SocketUtils::create_address(mEndpoint, mServerAddr);
         if (ret != E_OK) {
             LOG_ERROR << "Failed to create address\n";
             return ret;
         }
 
 
-        ret = socket_utils::connect(mHandle, mServerAddr);
+        ret = SocketUtils::connect(mHandle, mServerAddr);
         if (ret != E_OK) {
             LOG_ERROR << "Failed to connect to server\n";
             return ret;
@@ -64,7 +64,7 @@ namespace core {
         return E_OK;
     }
 
-    socket_error_t client_impl::register_message_handler(const message_handler_t &handler)
+    socket_error_t ClientImpl::register_message_handler(const message_handler_t &handler)
     {
         std::lock_guard<std::mutex> lock(mHandlerMutex);
         mMessageHandler = handler;
@@ -72,7 +72,7 @@ namespace core {
         return E_OK;
     }
 
-    void client_impl::receive_loop()
+    void ClientImpl::receive_loop()
     {
         while (mRunning)
         {
@@ -90,7 +90,7 @@ namespace core {
         }
     }
 
-    void client_impl::send_loop()
+    void ClientImpl::send_loop()
     {
         // Sending loop (for demonstration, sending a heartbeat every 5 seconds)
         while (this->mRunning)

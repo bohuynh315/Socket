@@ -5,7 +5,7 @@
 
 int main(int argc, char** argv)
 {
-    core::application* app = core::create();
+    core::Application* app = core::create();
     app->run();
 
     FREE_MEMORY(app);

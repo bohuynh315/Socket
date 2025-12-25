@@ -5,21 +5,21 @@
 
 namespace core
 {
-    class logger_impl
+    class LoggerImpl
     {
     public:
-        static logger_impl& get();
+        static LoggerImpl& get();
         std::unique_lock<std::mutex> get_mutex();
 
     public:
-        logger_impl(const logger_impl&) = delete;
-        logger_impl& operator=(const logger_impl&) = delete;
-        logger_impl(logger_impl&&) = delete;
-        logger_impl& operator=(logger_impl&&) = delete;
+        LoggerImpl(const LoggerImpl&) = delete;
+        LoggerImpl& operator=(const LoggerImpl&) = delete;
+        LoggerImpl(LoggerImpl&&) = delete;
+        LoggerImpl& operator=(LoggerImpl&&) = delete;
 
     private:
-        logger_impl() = default;
-        ~logger_impl() = default;
+        LoggerImpl() = default;
+        ~LoggerImpl() = default;
 
     private:
         static std::mutex sMutex;

@@ -7,23 +7,23 @@
 
 namespace core
 {
-    class window_glfw : public window
+    class GLFWWindow : public Window
     {
     public:
-        explicit window_glfw(const window_spec& spec);
-        virtual ~window_glfw();
+        explicit GLFWWindow(const WindowSpecs& spec);
+        virtual ~GLFWWindow();
 
         virtual void onUpdate() override;
-        virtual void* get_native_window() override { return mWindow; }
-        virtual void set_event_callback(const EventCallback& callback) override { mData.event_callback = callback; }
+        virtual void* getNativeWindow() override { return mWindow; }
+        virtual void setEventCallback(const EventCallback& callback) override { mData.event_callback = callback; }
 
     private:
-        void init(const window_spec& spec);
+        void init(const WindowSpecs& spec);
         void shutdown();
 
     private:
         GLFWwindow* mWindow;
-        Scope<graphic_context> mContext;
+        Scope<GraphicContext> mContext;
 
         typedef struct window_data
         {

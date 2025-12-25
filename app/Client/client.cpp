@@ -5,16 +5,16 @@
 #define SERVER_ADDRESS  "127.0.0.1"
 #define SERVER_PORT     8080
 
-class client_application : public core::application
+class ClientApplication : public core::Application
 {
 public:
-    client_application(const core::app_spec_t& spec)
-        : core::application(spec)
+    ClientApplication(const core::app_spec_t& spec)
+        : core::Application(spec)
     {
 
     }
 
-    virtual ~client_application()
+    virtual ~ClientApplication()
     {
 
     }
@@ -44,12 +44,12 @@ public:
     }
 };
 
-core::application* core::create()
+core::Application* core::create()
 {
     core::app_spec_t specs;
     specs.width = 800;
     specs.height = 600;
     specs.title = "Client";
 
-    return new client_application(specs);
+    return new ClientApplication(specs);
 }

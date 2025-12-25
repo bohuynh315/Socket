@@ -6,11 +6,11 @@
 
 namespace core
 {
-    class opengl_context : public graphic_context
+    class OpenGLContext : public GraphicContext
     {
     public:
-        opengl_context(GLFWwindow* window);
-        virtual ~opengl_context() = default;
+        OpenGLContext(GLFWwindow* window);
+        virtual ~OpenGLContext() = default;
 
         virtual void init() override;
         virtual void swap_buffers() override;

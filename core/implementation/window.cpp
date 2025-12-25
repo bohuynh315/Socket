@@ -3,8 +3,8 @@
 
 namespace core
 {
-    Scope<window> window::create(const window_spec& spec)
+    Scope<Window> Window::create(const WindowSpecs& spec)
     {
-        return CreateScope<window_glfw>(spec);
+        return CreateScope<GLFWWindow>(spec);
     }
 }

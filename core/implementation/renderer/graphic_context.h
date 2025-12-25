@@ -5,15 +5,15 @@
 
 namespace core
 {
-    class graphic_context
+    class GraphicContext
     {
     public:
-        virtual ~graphic_context() = default;
+        virtual ~GraphicContext() = default;
 
         virtual void init() = 0;
         virtual void swap_buffers() = 0;
 
-        static Scope<graphic_context> create(void* native_window);
+        static Scope<GraphicContext> create(void* native_window);
     };
 }
 

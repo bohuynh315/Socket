@@ -2,7 +2,7 @@
 
 namespace core
 {
-    thread_pool::thread_pool()
+    ThreadPool::ThreadPool()
         : mStop(false)
     {
         size_t threadCount = std::thread::hardware_concurrency();
@@ -13,7 +13,7 @@ namespace core
         }
     }
 
-    thread_pool::~thread_pool()
+    ThreadPool::~ThreadPool()
     {
         {
             std::unique_lock<std::mutex> lock(mMutex);
@@ -28,7 +28,7 @@ namespace core
         }
     }
 
-    void thread_pool::enqueue_task(const task_handler_t& task)
+    void ThreadPool::enqueue_task(const task_handler_t& task)
     {
         {
             std::unique_lock<std::mutex> lock(mMutex);
@@ -37,7 +37,7 @@ namespace core
         mCondition.notify_one();
     }
 
-    void thread_pool::worker_thread()
+    void ThreadPool::worker_thread()
     {
         while (true) {
             task_handler_t task;

@@ -15,11 +15,11 @@ typedef std::function<void()> task_handler_t;
 
 namespace core
 {
-    class thread_pool
+    class ThreadPool
     {
     public:
-        thread_pool();
-        ~thread_pool();
+        ThreadPool();
+        ~ThreadPool();
 
         void enqueue_task(const task_handler_t& task);
 

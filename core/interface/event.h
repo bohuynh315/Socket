@@ -3,7 +3,7 @@
 
 namespace core
 {
-    enum class event_type_t
+    enum class EventType
     {
         None = 0,
         WindowClosedEvent, WindowResizedEvent,
@@ -11,21 +11,21 @@ namespace core
         KeyPressedEvent, KeyReleasedEvent
     };
 
-    class event
+    class Event
     {
     public:
-        virtual ~event() = default;
+        virtual ~Event() = default;
 
         bool handled = false;
 
-        virtual event_type_t get_event_type() const = 0;
-        virtual const char* get_name() const = 0;
+        virtual EventType getEventType() const = 0;
+        virtual const char* getName() const = 0;
     };
 
-    class event_dispatcher
+    class EventDispatcher
     {
     public:
-        event_dispatcher(event &event)
+        EventDispatcher(Event &event)
             : mEvent(event)
         {
 
@@ -34,8 +34,8 @@ namespace core
         template<typename T, typename F>
 		bool dispatch(const F& func)
 		{
-            // CORE_LOGD("Run time type : {0} and expected type : {1}", static_cast<int>(mEvent.GetEventType()), static_cast<int>(T::GetStaticType()));
-			if (mEvent.get_event_type() == T::get_static_type())
+            // ("Run time type : {0} and expected type : {1}", static_cast<int>(mEvent.GetEventType()), static_cast<int>(T::GetStaticType()));
+			if (mEvent.getEventType() == T::getStaticType())
 			{
 				mEvent.handled |= func(static_cast<T&>(mEvent));
 				return true;
@@ -44,7 +44,7 @@ namespace core
 		}
 
     private:
-        event& mEvent;
+        Event& mEvent;
     };
 }
 

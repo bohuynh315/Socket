@@ -15,16 +15,16 @@ namespace core
         VERBOSE = 6
     };
 
-    class logger
+    class Logger
     {
     public:
-        logger(const log_level_t level);
-        virtual ~logger();
+        Logger(const log_level_t level);
+        virtual ~Logger();
 
-        logger& begin();
+        Logger& begin();
 
         template<typename T>
-        logger& operator<<(const T& msg)
+        Logger& operator<<(const T& msg)
         {
             mStream << msg;
             return *this;
@@ -36,11 +36,11 @@ namespace core
     };
 }
 
-#define LOG_FATAL   core::logger(core::log_level_t::FATAL).begin()
-#define LOG_ERROR   core::logger(core::log_level_t::ERROR).begin()
-#define LOG_WARNING core::logger(core::log_level_t::WARNING).begin()
-#define LOG_INFO    core::logger(core::log_level_t::INFO).begin()
-#define LOG_DEBUG   core::logger(core::log_level_t::DEBUG).begin()
-#define LOG_VERBOSE core::logger(core::log_level_t::VERBOSE).begin()
+#define LOG_FATAL   core::Logger(core::log_level_t::FATAL).begin()
+#define LOG_ERROR   core::Logger(core::log_level_t::ERROR).begin()
+#define LOG_WARNING core::Logger(core::log_level_t::WARNING).begin()
+#define LOG_INFO    core::Logger(core::log_level_t::INFO).begin()
+#define LOG_DEBUG   core::Logger(core::log_level_t::DEBUG).begin()
+#define LOG_VERBOSE core::Logger(core::log_level_t::VERBOSE).begin()
 
 #endif // CORE_LOGGER_H

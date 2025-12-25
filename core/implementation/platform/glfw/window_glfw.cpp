@@ -6,18 +6,18 @@
 
 namespace core
 {
-    window_glfw::window_glfw(const window_spec &spec)
+    GLFWWindow::GLFWWindow(const WindowSpecs &spec)
         : mWindow(nullptr)
     {
         init(spec);
     }
 
-    window_glfw::~window_glfw()
+    GLFWWindow::~GLFWWindow()
     {
         shutdown();
     }
 
-    void window_glfw::init(const window_spec &spec)
+    void GLFWWindow::init(const WindowSpecs &spec)
     {
         mData.title = spec.mTitle.c_str();
         mData.width = spec.mWidth;
@@ -47,7 +47,7 @@ namespace core
         }
         LOG_INFO << "Window created successfully";
 
-        mContext = graphic_context::create(mWindow);
+        mContext = GraphicContext::create(mWindow);
         mContext->init();
 
         glfwSetWindowUserPointer(mWindow, &mData);
@@ -55,17 +55,17 @@ namespace core
         glfwSetWindowCloseCallback(mWindow, [](GLFWwindow* window) {
             window_data *data = (window_data*)glfwGetWindowUserPointer(window);
 
-            window_close_event event;
+            WindowCloseEvent event;
             data->event_callback(event);
         });
     }
 
-    void window_glfw::shutdown()
+    void GLFWWindow::shutdown()
     {
         glfwTerminate();
     }
 
-    void window_glfw::onUpdate()
+    void GLFWWindow::onUpdate()
     {
         mContext->swap_buffers();
         glfwPollEvents();

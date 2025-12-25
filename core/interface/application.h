@@ -14,35 +14,35 @@ namespace core
         const char* title;
     } app_spec_t;
 
-    class application
+    class Application
     {
     public:
-        virtual ~application() = default;
+        virtual ~Application() = default;
 
         virtual void onInit() = 0;
         virtual void onShutDown() = 0;
-        static application& get() { return *sInstance; }
+        static Application& get() { return *sInstance; }
 
         void run();
 
     public:
-        application() = default;
-        application(const app_spec_t &);
+        Application() = default;
+        Application(const app_spec_t &);
 
     private:
-        void onEvent(event& e);
-        bool onWindowClosed(window_close_event& e);
+        void onEvent(Event& e);
+        bool onWindowClosed(WindowCloseEvent& e);
 
     private:
         app_spec_t mSpec;
         bool mRunning;
-        Scope<window> mWindow;
+        Scope<Window> mWindow;
 
     private:
-        static application *sInstance;
+        static Application *sInstance;
     };
 
-    extern application* create();
+    extern Application* create();
 }
 
 #endif // CORE_APPLICATION_H

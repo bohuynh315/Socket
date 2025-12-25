@@ -2,15 +2,15 @@
 
 namespace core
 {
-    std::mutex logger_impl::sMutex;
+    std::mutex LoggerImpl::sMutex;
 
-    logger_impl& logger_impl::get()
+    LoggerImpl& LoggerImpl::get()
     {
-        static logger_impl instance;
+        static LoggerImpl instance;
         return instance;
     }
 
-    std::unique_lock<std::mutex> logger_impl::get_mutex()
+    std::unique_lock<std::mutex> LoggerImpl::get_mutex()
     {
         return std::unique_lock<std::mutex>(sMutex);
     }

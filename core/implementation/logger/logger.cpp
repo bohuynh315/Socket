@@ -8,19 +8,19 @@
 
 namespace core
 {
-    logger::logger(const log_level_t level)
+    Logger::Logger(const log_level_t level)
         : mLevel(level)
     {
 
     }
 
-    logger::~logger()
+    Logger::~Logger()
     {
-        std::unique_lock<std::mutex> lock = logger_impl::get().get_mutex();
+        std::unique_lock<std::mutex> lock = LoggerImpl::get().get_mutex();
         std::cout << mStream.str() << std::endl;
     }
 
-    logger &logger::begin()
+    Logger &Logger::begin()
     {
         mStream << "[";
 
@@ -49,7 +49,7 @@ namespace core
             break;
         }
 
-        timestamp ts;
+        TimeStamp ts;
         mStream << "][" << std::this_thread::get_id() << "][" << ts.get() << "] ";
         return *this;
     }

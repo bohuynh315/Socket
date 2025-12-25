@@ -5,7 +5,7 @@
 
 namespace core
 {
-    socket_error_t socket_utils::set_option(SocketHandle_t socket, int option, int value)
+    socket_error_t SocketUtils::set_option(SocketHandle_t socket, int option, int value)
     {
         if (setsockopt(socket, SOL_SOCKET, option, &value, sizeof(value)) < 0) {
             return E_FAILED_TO_CREATE_SOCKET;
@@ -13,7 +13,7 @@ namespace core
         return E_OK;
     }
 
-    socket_error_t socket_utils::create_address(const endpoint_t &endpoint, SocketAddress_t& outAddress)
+    socket_error_t SocketUtils::create_address(const endpoint_t &endpoint, SocketAddress_t& outAddress)
     {
         outAddress.sin_family = AF_INET;
         outAddress.sin_port = htons(endpoint.port);
@@ -23,7 +23,7 @@ namespace core
         return E_OK;
     }
 
-    socket_error_t socket_utils::bind(SocketHandle_t socket, const SocketAddress_t& address)
+    socket_error_t SocketUtils::bind(SocketHandle_t socket, const SocketAddress_t& address)
     {
         if (::bind(socket, (struct sockaddr *)&address, sizeof(address)) < 0) {
             return E_FAILED_TO_BIND_SOCKET;
@@ -31,7 +31,7 @@ namespace core
         return E_OK;
     }
 
-    socket_error_t socket_utils::listen(SocketHandle_t socket, int backlog)
+    socket_error_t SocketUtils::listen(SocketHandle_t socket, int backlog)
     {
         if (::listen(socket, backlog) < 0) {
             return E_FAILED_TO_LISTEN_SOCKET;
@@ -39,7 +39,7 @@ namespace core
         return E_OK;
     }
 
-    socket_error_t socket_utils::connect(SocketHandle_t socket, const SocketAddress_t& address)
+    socket_error_t SocketUtils::connect(SocketHandle_t socket, const SocketAddress_t& address)
     {
         if (::connect(socket, (struct sockaddr*)&address, sizeof(address)) < 0) {
             return E_FAILED_TO_CONNECT_SOCKET;

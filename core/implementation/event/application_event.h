@@ -5,14 +5,14 @@
 
 namespace core
 {
-    class window_close_event : public event
+    class WindowCloseEvent : public Event
     {
     public:
-        window_close_event() = default;
+        WindowCloseEvent() = default;
 
-        virtual event_type_t get_event_type() const override { return event_type_t::WindowClosedEvent; }
-        virtual const char* get_name() const override { return "WindowCloseEvent"; }
-        static event_type_t get_static_type() { return event_type_t::WindowClosedEvent; }
+        virtual EventType getEventType() const override { return EventType::WindowClosedEvent; }
+        virtual const char* getName() const override { return "WindowCloseEvent"; }
+        static EventType getStaticType() { return EventType::WindowClosedEvent; }
     };
 }
 
