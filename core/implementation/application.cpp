@@ -2,11 +2,10 @@
 
 namespace core
 {
-    application* application::sInstance = nullptr;
+    application *application::sInstance = nullptr;
 
-    application::application(const app_spec_t& spec)
-        : mSpec(spec)
-        , mRunning(true)
+    application::application(const app_spec_t &spec)
+        : mSpec(spec), mRunning(true)
     {
         sInstance = this;
 
@@ -22,7 +21,7 @@ namespace core
         on_init();
         while (mRunning)
         {
-            /* code */
+            mWindow->on_update();
         }
         on_shutdown();
     }

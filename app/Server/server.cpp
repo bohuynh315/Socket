@@ -21,20 +21,20 @@ public:
 
     virtual void on_init() override
     {
-        LOG_INFO << "Client is initialized\n";
+        LOG_INFO << "Server is initialized\n";
 
-        core::Scope<core::server> socket = core::server::create(SERVER_ADDRESS, SERVER_PORT);
-        if (!socket)
-        {
-            LOG_ERROR << "Failed to create client\n";
-            return;
-        }
+        // core::Scope<core::server> socket = core::server::create(SERVER_ADDRESS, SERVER_PORT);
+        // if (!socket)
+        // {
+        //     LOG_ERROR << "Failed to create client\n";
+        //     return;
+        // }
 
-        if (socket->start() != E_OK)
-        {
-            LOG_ERROR << "Failed to start client\n";
-            return;
-        }
+        // if (socket->start() != E_OK)
+        // {
+        //     LOG_ERROR << "Failed to start client\n";
+        //     return;
+        // }
     }
 
     virtual void on_shutdown() override

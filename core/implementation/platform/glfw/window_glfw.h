@@ -3,6 +3,7 @@
 
 #include "window.h"
 #include "GLFW/glfw3.h"
+#include "renderer/graphic_context.h"
 
 namespace core
 {
@@ -12,7 +13,8 @@ namespace core
         explicit window_glfw(const window_spec& spec);
         virtual ~window_glfw();
 
-        void* get_native_window() { return mWindow; }
+        virtual void on_update() override;
+        virtual void* get_native_window() override { return mWindow; }
 
     private:
         void init(const window_spec& spec);
@@ -20,6 +22,7 @@ namespace core
 
     private:
         GLFWwindow* mWindow;
+        Scope<graphic_context> mContext;
 
         typedef struct window_data
         {
@@ -27,7 +30,7 @@ namespace core
             int width, height;
             // Callback
         } window_data_t;
-        window_data_t mData;        
+        window_data_t mData;
     };
 }
 
