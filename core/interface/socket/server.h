@@ -6,14 +6,15 @@
 
 namespace core
 {
-    class server
+    class Server
     {
     public:
-        virtual ~server() {}
+        virtual ~Server() {}
 
         virtual socket_error_t start() = 0;
+        virtual void stop() = 0;
     
-        static Scope<server> create(const char* address, const int port);
+        static Scope<Server> create(const char* address, const int port);
     };
 }
 

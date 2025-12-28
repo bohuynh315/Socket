@@ -13,17 +13,17 @@
 namespace core
 {
     ServerImpl::ServerImpl(const char* address, const int port)
-        : server()
+        : Server()
         , mRunning(false)
         , mEndpoint{address, port}
-        , mHandle(0)
+        , mHandle(-1)
     {
 
     }
 
     ServerImpl::~ServerImpl()
     {
-        close(mHandle);
+
     }
 
     socket_error_t ServerImpl::start()
@@ -64,9 +64,27 @@ namespace core
             return ret;
         }
 
-        run_loop();
+        mThread = std::thread([this]() {
+            this->run_loop();
+        });
 
         return E_OK;
+    }
+
+    void ServerImpl::stop()
+    {
+        mRunning = false;
+
+        if (mHandle >= 0) {
+            shutdown(mHandle, SHUT_RDWR);
+            close(mHandle);
+            mHandle = -1;
+        }
+
+        if (mThread.joinable())
+        {
+            mThread.join();
+        }
     }
 
     void ServerImpl::run_loop()

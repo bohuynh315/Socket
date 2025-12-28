@@ -3,7 +3,7 @@
 
 namespace core
 {
-    Scope<server> server::create(const char* address, const int port)
+    Scope<Server> Server::create(const char* address, const int port)
     {
         return CreateScope<ServerImpl>(address, port);
     }

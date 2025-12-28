@@ -2,8 +2,14 @@
 #include "logger.h"
 #include "socket/server.h"
 
-#define SERVER_ADDRESS "127.0.0.1"
-#define SERVER_PORT 8080
+#include <thread>
+
+#define APP_WIDTH       380
+#define APP_HEIGHT      600
+#define APP_TITLE       "Server"
+
+#define SERVER_ADDRESS  "127.0.0.1"
+#define SERVER_PORT     8080
 
 class ServerApplication : public core::Application
 {
@@ -23,32 +29,41 @@ public:
     {
         LOG_INFO << "Server is initialized\n";
 
-        // core::Scope<core::server> socket = core::server::create(SERVER_ADDRESS, SERVER_PORT);
-        // if (!socket)
-        // {
-        //     LOG_ERROR << "Failed to create client\n";
-        //     return;
-        // }
+        mServer = core::Server::create(SERVER_ADDRESS, SERVER_PORT);
+        if (!mServer)
+        {
+            LOG_ERROR << "Failed to create server\n";
+            return;
+        }
 
-        // if (socket->start() != E_OK)
-        // {
-        //     LOG_ERROR << "Failed to start client\n";
-        //     return;
-        // }
+        socket_error_t ret = mServer->start();
+        if (ret != E_OK)
+        {
+            LOG_ERROR << "Failed to start server\n";
+            return;
+        }
     }
 
     virtual void onShutDown() override
     {
-        LOG_INFO << "Client is shutting down\n";
+        LOG_INFO << "Server is shutting down\n";
+        if (mServer)
+        {
+            mServer->stop();
+        }
     }
+
+private:
+    std::thread mServerThread;
+    core::Scope<core::Server> mServer;
 };
 
 core::Application *core::create()
 {
     core::app_spec_t specs;
-    specs.width = 800;
-    specs.height = 600;
-    specs.title = "Server";
+    specs.width = APP_WIDTH;
+    specs.height = APP_HEIGHT;
+    specs.title = APP_TITLE;
 
     return new ServerApplication(specs);
 }
