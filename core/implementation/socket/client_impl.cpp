@@ -8,8 +8,9 @@
 
 namespace core {
     ClientImpl::ClientImpl(const char* address, int port)
-        : client()
-        , mRunning(false)
+        : Client()
+        , mSendRunning(false)
+        , mRecvRunning(false)
         , mEndpoint{address, port}
         , mHandle(0)
     {
@@ -18,21 +19,16 @@ namespace core {
 
     ClientImpl::~ClientImpl()
     {
-        mRunning = false;
 
-        if (mReceiveThread.joinable())
-        {
-            mReceiveThread.join();
-        }
-
-        close(mHandle);
     }
 
     socket_error_t ClientImpl::start()
     {
         socket_error_t ret = E_OK;
-        mRunning = true;
-
+        mSendRunning = true;
+        mRecvRunning = true;
+    
+        // Create socket
         mHandle = socket(AF_INET, SOCK_STREAM, 0);
         if (mHandle < 0) {
             LOG_ERROR << "Failed to create socket\n";
@@ -55,13 +51,41 @@ namespace core {
 
         LOG_INFO << "Connected to server " << mEndpoint.ip << ":" << mEndpoint.port << '\n';
 
+        mSendThread = std::thread([this]() {
+            LOG_DEBUG << "Starting send loop thread\n";
+            this->send_loop();
+        });
+
         mReceiveThread = std::thread([this]() {
+            LOG_DEBUG << "Starting receive loop thread\n";
             this->receive_loop();
         });
 
-        send_loop();
-
         return E_OK;
+    }
+
+    void ClientImpl::stop()
+    {
+        mSendRunning = false;
+        mRecvRunning = false;
+
+        if (mHandle >= 0) {
+            shutdown(mHandle, SHUT_RDWR);
+            close(mHandle);
+            mHandle = -1;
+        }
+
+        if (mReceiveThread.joinable())
+        {
+            mReceiveThread.join();
+        }
+
+        if (mSendThread.joinable())
+        {
+            mSendThread.join();
+        }
+
+        LOG_INFO << "Client stopped successfully\n";
     }
 
     socket_error_t ClientImpl::register_message_handler(const message_handler_t &handler)
@@ -74,10 +98,11 @@ namespace core {
 
     void ClientImpl::receive_loop()
     {
-        while (mRunning)
+        while (mRecvRunning)
         {
+            LOG_INFO << "Waiting to receive data from server...\n";
             char buffer[1024] = {0};
-            ssize_t bytesRead = recv(this->mHandle, buffer, sizeof(buffer), 0);
+            ssize_t bytesRead = recv(mHandle, buffer, sizeof(buffer), 0);
             if (bytesRead <= 0) {
                 LOG_ERROR << "Server connection closed or error occurred";
                 break; // Connection closed or error
@@ -92,12 +117,12 @@ namespace core {
 
     void ClientImpl::send_loop()
     {
-        // Sending loop (for demonstration, sending a heartbeat every 5 seconds)
-        while (this->mRunning)
+        while (mSendRunning)
         {
+            LOG_INFO << "Sending heartbeat to server...\n";
             const char* heartbeat = "HEARTBEAT";
             
-            size_t ret = send(this->mHandle, heartbeat, strlen(heartbeat), 0);
+            size_t ret = send(mHandle, heartbeat, strlen(heartbeat), 0);
             if (ret < 0) {
                 LOG_ERROR << "Failed to send heartbeat to server";
                 break;

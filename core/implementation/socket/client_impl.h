@@ -5,13 +5,14 @@
 #include <thread>
 
 namespace core {
-    class ClientImpl : public client
+    class ClientImpl : public Client
     {
     public:
         ClientImpl(const char* address, int port);
         virtual ~ClientImpl();
 
         virtual socket_error_t start() override;
+        virtual void stop() override;
         virtual socket_error_t register_message_handler(const message_handler_t &handler) override;
 
     private:
@@ -19,12 +20,14 @@ namespace core {
         void send_loop();
 
     private:
-        bool mRunning;
         endpoint_t mEndpoint;
-        std::thread mThread;
         SocketHandle_t mHandle;
         SocketAddress_t mServerAddr;
 
+        std::atomic<bool> mSendRunning;
+        std::thread mSendThread;
+
+        std::atomic<bool> mRecvRunning;
         std::thread mReceiveThread;
         std::mutex mReceiveMutex;
 

@@ -54,7 +54,6 @@ public:
     }
 
 private:
-    std::thread mServerThread;
     core::Scope<core::Server> mServer;
 };
 

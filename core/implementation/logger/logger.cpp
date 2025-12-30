@@ -50,7 +50,7 @@ namespace core
         }
 
         TimeStamp ts;
-        mStream << "][" << std::this_thread::get_id() << "][" << ts.get() << "] ";
+        mStream << "][" << std::this_thread::get_id() << "][" << ts.get() << "]";
         return *this;
     }
 } // namespace core

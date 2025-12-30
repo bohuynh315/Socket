@@ -3,7 +3,7 @@
 
 namespace core
 {
-    Scope<client> client::create(const char* address, int port)
+    Scope<Client> Client::create(const char* address, int port)
     {
         return CreateScope<ClientImpl>(address, port);
     }

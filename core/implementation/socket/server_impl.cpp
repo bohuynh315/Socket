@@ -93,7 +93,7 @@ namespace core
         {
             struct sockaddr_in clientAddress;
             socklen_t clientAddrLen = sizeof(clientAddress);
-            SocketHandle_t clientSocket = accept(mHandle, (struct sockaddr *)&clientAddress, &clientAddrLen);
+            SocketHandle_t clientSocket = accept(mHandle, reinterpret_cast<sockaddr*>(&clientAddress), &clientAddrLen);
             if (clientSocket < 0)
             {
                 LOG_ERROR << "Failed to accept client connection\n";
@@ -109,30 +109,34 @@ namespace core
 
             mClients[clientSocket] = clientAddress;
 
-            mThreadPool.enqueue_task([clientSocket, clientAddress, this]() {
+            SocketHandle_t sock = clientSocket;
+            sockaddr_in addr = clientAddress;
+
+            mThreadPool.enqueue_task([this, sock, addr]() {
                 // Handle client communication here
                 LOG_INFO << "New task for client communication\n";
                 while(true) {
                     char buffer[1024] = {0};
-                    ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+                    ssize_t bytesRead = recv(sock, buffer, sizeof(buffer), 0);
                     if (bytesRead <= 0) {
                         break; // Connection closed or error
                     }
                     LOG_INFO << "Received from client ("
-                              << inet_ntoa(clientAddress.sin_addr)
-                              << ":" << ntohs(clientAddress.sin_port)
+                              << inet_ntoa(addr.sin_addr)
+                              << ":" << ntohs(addr.sin_port)
                               << "): "
                               << std::string(buffer, bytesRead) << "\n";
 
-                    broadcast_message(clientSocket, buffer, bytesRead);
+                    broadcast_message(sock, buffer, bytesRead);
                 }
 
-                mClients.erase(clientSocket);
-                close(clientSocket);
+                mClients.erase(sock);
+                shutdown(sock, SHUT_RDWR);
+                close(sock);
 
                 LOG_INFO << "Client ("
-                         << inet_ntoa(clientAddress.sin_addr)
-                         << ":" << ntohs(clientAddress.sin_port)
+                         << inet_ntoa(addr.sin_addr)
+                         << ":" << ntohs(addr.sin_port)
                          << ") has been disconnected\n";
             });
         }
