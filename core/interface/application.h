@@ -4,6 +4,7 @@
 #include "window.h"
 
 #include "event/application_event.h"
+#include "event/mouse_event.h"
 
 namespace core
 {
@@ -34,6 +35,8 @@ namespace core
         bool onWindowClosed(WindowCloseEvent& e);
         bool onWindowResized(WindowResizeEvent& e);
         bool onWindowPosChanged(WindowPosEvent& e);
+        bool onMousePosChanged(MousePosEvent& e);
+        bool onMouseEnterChanged(MouseEnterEvent& e);
 
     private:
         app_spec_t mSpec;

@@ -33,9 +33,15 @@ namespace core
     void Application::onEvent(Event& e)
     {
         EventDispatcher dispatcher(e);
+
+        /* Window */
         dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FUNCTION(onWindowClosed));
         dispatcher.dispatch<WindowResizeEvent>(BIND_EVENT_FUNCTION(onWindowResized));
         dispatcher.dispatch<WindowPosEvent>(BIND_EVENT_FUNCTION(onWindowPosChanged));
+
+        /* Mouse */
+        dispatcher.dispatch<MousePosEvent>(BIND_EVENT_FUNCTION(onMousePosChanged));
+        dispatcher.dispatch<MouseEnterEvent>(BIND_EVENT_FUNCTION(onMouseEnterChanged));
     }
 
     bool Application::onWindowClosed(WindowCloseEvent& e)
@@ -46,13 +52,25 @@ namespace core
 
     bool Application::onWindowResized(WindowResizeEvent& e)
     {
-        LOG_INFO << "Window resized to " << e.getWidth() << "x" <<  e.getHeight();
+        // LOG_INFO << "Window resized to " << e.getWidth() << "x" <<  e.getHeight();
         return false;
     }
 
     bool Application::onWindowPosChanged(WindowPosEvent& e)
     {
-        LOG_INFO << "Window Pos: " << e.getXPosition() << " " << e.getYPosition();
+        // LOG_INFO << "Window Pos: " << e.getXPosition() << " " << e.getYPosition();
+        return false;
+    }
+
+    bool Application::onMousePosChanged(MousePosEvent& e)
+    {
+        // LOG_INFO << "Window Pos: " << e.getXPosition() << " " << e.getYPosition();
+        return false;
+    }
+
+    bool Application::onMouseEnterChanged(MouseEnterEvent& e)
+    {
+        // LOG_INFO << "Mouse enter: " << e.getEntered();
         return false;
     }
 }

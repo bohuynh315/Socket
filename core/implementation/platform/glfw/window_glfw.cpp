@@ -3,6 +3,7 @@
 #include "logger.h"
 
 #include "event/application_event.h"
+#include "event/mouse_event.h"
 
 namespace core
 {
@@ -52,6 +53,7 @@ namespace core
 
         glfwSetWindowUserPointer(mWindow, &mData);
 
+        /* Window Callback */
         glfwSetWindowCloseCallback(mWindow, [](GLFWwindow* window) {
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
 
@@ -72,6 +74,21 @@ namespace core
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
 
             WindowPosEvent event(xpos, ypos);
+            data->event_callback(event);
+        });
+
+        /* Mouse Callback */
+        glfwSetCursorPosCallback(mWindow, [](GLFWwindow* window, double xpos, double ypos) {
+            WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
+
+            MousePosEvent event(xpos, ypos);
+            data->event_callback(event);
+        });
+
+        glfwSetCursorEnterCallback(mWindow, [](GLFWwindow* window, int entered){
+            WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
+
+            MouseEnterEvent event(entered);
             data->event_callback(event);
         });
     }
