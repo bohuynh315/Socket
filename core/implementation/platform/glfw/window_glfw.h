@@ -25,13 +25,13 @@ namespace core
         GLFWwindow* mWindow;
         Scope<GraphicContext> mContext;
 
-        typedef struct window_data
+        struct WindowData
         {
             const char* title;
             int width, height;
             EventCallback event_callback;
-        } window_data_t;
-        window_data_t mData;
+        };
+        WindowData mData;
     };
 }
 

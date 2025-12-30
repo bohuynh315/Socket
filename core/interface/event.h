@@ -6,7 +6,7 @@ namespace core
     enum class EventType
     {
         None = 0,
-        WindowClosedEvent, WindowResizedEvent,
+        WindowClosedEvent, WindowResizedEvent, WindowPosEvent,
         MousePosEvent, MousePressEvent, MouseReleaseButtonEvent, MouseScrolledEvent,
         KeyPressedEvent, KeyReleasedEvent
     };

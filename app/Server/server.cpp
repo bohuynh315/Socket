@@ -27,26 +27,26 @@ public:
 
     virtual void onInit() override
     {
-        LOG_INFO << "Server is initialized\n";
+        LOG_INFO << "Server is initialized";
 
         mServer = core::Server::create(SERVER_ADDRESS, SERVER_PORT);
         if (!mServer)
         {
-            LOG_ERROR << "Failed to create server\n";
+            LOG_ERROR << "Failed to create server";
             return;
         }
 
         socket_error_t ret = mServer->start();
         if (ret != E_OK)
         {
-            LOG_ERROR << "Failed to start server\n";
+            LOG_ERROR << "Failed to start server";
             return;
         }
     }
 
     virtual void onShutDown() override
     {
-        LOG_INFO << "Server is shutting down\n";
+        LOG_INFO << "Server is shutting down";
         if (mServer)
         {
             mServer->stop();

@@ -32,6 +32,8 @@ namespace core
     private:
         void onEvent(Event& e);
         bool onWindowClosed(WindowCloseEvent& e);
+        bool onWindowResized(WindowResizeEvent& e);
+        bool onWindowPosChanged(WindowPosEvent& e);
 
     private:
         app_spec_t mSpec;

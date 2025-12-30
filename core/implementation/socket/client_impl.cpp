@@ -31,33 +31,33 @@ namespace core {
         // Create socket
         mHandle = socket(AF_INET, SOCK_STREAM, 0);
         if (mHandle < 0) {
-            LOG_ERROR << "Failed to create socket\n";
+            LOG_ERROR << "Failed to create socket";
             return E_FAILED_TO_CREATE_SOCKET;
         }
 
         // Connect to server
         ret = SocketUtils::create_address(mEndpoint, mServerAddr);
         if (ret != E_OK) {
-            LOG_ERROR << "Failed to create address\n";
+            LOG_ERROR << "Failed to create address";
             return ret;
         }
 
 
         ret = SocketUtils::connect(mHandle, mServerAddr);
         if (ret != E_OK) {
-            LOG_ERROR << "Failed to connect to server\n";
+            LOG_ERROR << "Failed to connect to server";
             return ret;
         }
 
         LOG_INFO << "Connected to server " << mEndpoint.ip << ":" << mEndpoint.port << '\n';
 
         mSendThread = std::thread([this]() {
-            LOG_DEBUG << "Starting send loop thread\n";
+            LOG_DEBUG << "Starting send loop thread";
             this->send_loop();
         });
 
         mReceiveThread = std::thread([this]() {
-            LOG_DEBUG << "Starting receive loop thread\n";
+            LOG_DEBUG << "Starting receive loop thread";
             this->receive_loop();
         });
 
@@ -85,7 +85,7 @@ namespace core {
             mSendThread.join();
         }
 
-        LOG_INFO << "Client stopped successfully\n";
+        LOG_INFO << "Client stopped successfully";
     }
 
     socket_error_t ClientImpl::register_message_handler(const message_handler_t &handler)
@@ -100,7 +100,7 @@ namespace core {
     {
         while (mRecvRunning)
         {
-            LOG_INFO << "Waiting to receive data from server...\n";
+            LOG_INFO << "Waiting to receive data from server...";
             char buffer[1024] = {0};
             ssize_t bytesRead = recv(mHandle, buffer, sizeof(buffer), 0);
             if (bytesRead <= 0) {
@@ -119,7 +119,7 @@ namespace core {
     {
         while (mSendRunning)
         {
-            LOG_INFO << "Sending heartbeat to server...\n";
+            LOG_INFO << "Sending heartbeat to server...";
             const char* heartbeat = "HEARTBEAT";
             
             size_t ret = send(mHandle, heartbeat, strlen(heartbeat), 0);
@@ -127,7 +127,7 @@ namespace core {
                 LOG_ERROR << "Failed to send heartbeat to server";
                 break;
             }
-            LOG_INFO << "Sent heartbeat to server\n";
+            LOG_INFO << "Sent heartbeat to server";
             std::this_thread::sleep_for(std::chrono::seconds(2));
         }
     }

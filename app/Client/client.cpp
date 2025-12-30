@@ -25,25 +25,25 @@ public:
 
     virtual void onInit() override
     {
-        LOG_INFO << "Client is initialized\n";
+        LOG_INFO << "Client is initialized";
 
         mClient = core::Client::create(SERVER_ADDRESS, SERVER_PORT);
         if (mClient == nullptr)
         {
-            LOG_ERROR << "Failed to create client\n";
+            LOG_ERROR << "Failed to create client";
             return;
         }
 
         if (mClient->start() != E_OK)
         {
-            LOG_ERROR << "Failed to start client\n";
+            LOG_ERROR << "Failed to start client";
             return;
         }
     }
 
     virtual void onShutDown() override
     {
-        LOG_INFO << "Client is shutting down\n";
+        LOG_INFO << "Client is shutting down";
         if (mClient != nullptr)
         {
             mClient->stop();

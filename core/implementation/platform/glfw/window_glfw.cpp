@@ -53,9 +53,25 @@ namespace core
         glfwSetWindowUserPointer(mWindow, &mData);
 
         glfwSetWindowCloseCallback(mWindow, [](GLFWwindow* window) {
-            window_data *data = (window_data*)glfwGetWindowUserPointer(window);
+            WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
 
             WindowCloseEvent event;
+            data->event_callback(event);
+        });
+
+        glfwSetWindowSizeCallback(mWindow, [](GLFWwindow* window, int width, int height) {
+            WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
+            data->width = width;
+            data->height = height;
+
+            WindowResizeEvent event(width, height);
+            data->event_callback(event);
+        });
+
+        glfwSetWindowPosCallback(mWindow, [](GLFWwindow* window, int xpos, int ypos) {
+            WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
+
+            WindowPosEvent event(xpos, ypos);
             data->event_callback(event);
         });
     }

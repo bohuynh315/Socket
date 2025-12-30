@@ -35,32 +35,32 @@ namespace core
 
         mHandle = socket(AF_INET, SOCK_STREAM, 0);
         if (mHandle < 0) {
-            LOG_ERROR << "Failed to create socket\n";
+            LOG_ERROR << "Failed to create socket";
             ret = E_FAILED_TO_CREATE_SOCKET;
             return ret;
         }
 
         ret = SocketUtils::create_address(mEndpoint, mAddress);
         if (ret != E_OK) {
-            LOG_ERROR << "Failed to create address\n";
+            LOG_ERROR << "Failed to create address";
             return ret;
         }
 
         ret = SocketUtils::set_option(mHandle, SO_REUSEADDR, 1);
         if (ret != E_OK) {
-            LOG_ERROR << "Failed to set socket options\n";
+            LOG_ERROR << "Failed to set socket options";
             return ret;
         }
 
         ret = SocketUtils::bind(mHandle, mAddress);
         if (ret != E_OK) {
-            LOG_ERROR << "Failed to bind socket\n";
+            LOG_ERROR << "Failed to bind socket";
             return ret;
         }
 
         ret = SocketUtils::listen(mHandle, BACKLOG);
         if (ret != E_OK) {
-            LOG_ERROR << "Failed to listen on socket\n";
+            LOG_ERROR << "Failed to listen on socket";
             return ret;
         }
 
@@ -96,16 +96,16 @@ namespace core
             SocketHandle_t clientSocket = accept(mHandle, reinterpret_cast<sockaddr*>(&clientAddress), &clientAddrLen);
             if (clientSocket < 0)
             {
-                LOG_ERROR << "Failed to accept client connection\n";
+                LOG_ERROR << "Failed to accept client connection";
                 continue;
             }
 
             LOG_INFO << "Client connected from "
                      << inet_ntoa(clientAddress.sin_addr)
                      << ":" << ntohs(clientAddress.sin_port)
-                     << "\n";
+                     << "";
 
-            LOG_INFO << "Client connected\n";
+            LOG_INFO << "Client connected";
 
             mClients[clientSocket] = clientAddress;
 
@@ -114,7 +114,7 @@ namespace core
 
             mThreadPool.enqueue_task([this, sock, addr]() {
                 // Handle client communication here
-                LOG_INFO << "New task for client communication\n";
+                LOG_INFO << "New task for client communication";
                 while(true) {
                     char buffer[1024] = {0};
                     ssize_t bytesRead = recv(sock, buffer, sizeof(buffer), 0);
@@ -125,7 +125,7 @@ namespace core
                               << inet_ntoa(addr.sin_addr)
                               << ":" << ntohs(addr.sin_port)
                               << "): "
-                              << std::string(buffer, bytesRead) << "\n";
+                              << std::string(buffer, bytesRead) << "";
 
                     broadcast_message(sock, buffer, bytesRead);
                 }
@@ -137,7 +137,7 @@ namespace core
                 LOG_INFO << "Client ("
                          << inet_ntoa(addr.sin_addr)
                          << ":" << ntohs(addr.sin_port)
-                         << ") has been disconnected\n";
+                         << ") has been disconnected";
             });
         }
     }
