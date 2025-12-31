@@ -85,10 +85,17 @@ namespace core
             data->event_callback(event);
         });
 
-        glfwSetCursorEnterCallback(mWindow, [](GLFWwindow* window, int entered){
+        glfwSetCursorEnterCallback(mWindow, [](GLFWwindow* window, int entered) {
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
 
             MouseEnterEvent event(entered);
+            data->event_callback(event);
+        });
+
+        glfwSetScrollCallback(mWindow, [](GLFWwindow* window, double xoffset, double yoffset) {
+            WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
+
+            MouseScrollEvent event(xoffset, yoffset);
             data->event_callback(event);
         });
     }

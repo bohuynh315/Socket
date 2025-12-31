@@ -37,6 +37,7 @@ namespace core
         bool onWindowPosChanged(WindowPosEvent& e);
         bool onMousePosChanged(MousePosEvent& e);
         bool onMouseEnterChanged(MouseEnterEvent& e);
+        bool onMouseScrollChanged(MouseScrollEvent& e);
 
     private:
         app_spec_t mSpec;

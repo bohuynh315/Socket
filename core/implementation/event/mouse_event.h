@@ -44,6 +44,27 @@ namespace core
     private:
         int mEntered;
     };
+
+    class MouseScrollEvent : public Event
+    {
+    public:
+        MouseScrollEvent(double xoffset, double yoffset)
+            : mXOffset(xoffset)
+            , mYOffset(yoffset)
+        {
+
+        }
+
+        double getXOffset() { return mXOffset; }
+        double getYOffset() { return mYOffset; }
+
+        virtual EventType getEventType() const override { return EventType::MouseScrollEvent; }
+        virtual const char *getName() const override { return "MouseScrollEvent"; }
+        static EventType getStaticType() { return EventType::MouseScrollEvent; }
+
+    private:
+        double mXOffset, mYOffset;
+    };
 }
 
 #endif // CORE_MOUSE_EVENT_H

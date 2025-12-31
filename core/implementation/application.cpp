@@ -42,6 +42,7 @@ namespace core
         /* Mouse */
         dispatcher.dispatch<MousePosEvent>(BIND_EVENT_FUNCTION(onMousePosChanged));
         dispatcher.dispatch<MouseEnterEvent>(BIND_EVENT_FUNCTION(onMouseEnterChanged));
+        dispatcher.dispatch<MouseScrollEvent>(BIND_EVENT_FUNCTION(onMouseScrollChanged));
     }
 
     bool Application::onWindowClosed(WindowCloseEvent& e)
@@ -73,4 +74,10 @@ namespace core
         // LOG_INFO << "Mouse enter: " << e.getEntered();
         return false;
     }
-}
+
+    bool Application::onMouseScrollChanged(MouseScrollEvent& e)
+    {
+        // LOG_INFO << "Mouse scroll: " << e.getXOffset() << ":" << e.getYOffset();
+        return false;
+    }
+} // namespace core

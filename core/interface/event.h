@@ -7,7 +7,7 @@ namespace core
     {
         None = 0,
         WindowClosedEvent, WindowResizedEvent, WindowPosEvent,
-        MousePosEvent, MouseEnterEvent, MousePressEvent, MouseReleaseButtonEvent, MouseScrolledEvent,
+        MousePosEvent, MouseEnterEvent, MousePressEvent, MouseReleaseButtonEvent, MouseScrollEvent,
         KeyPressedEvent, KeyReleasedEvent
     };
 
