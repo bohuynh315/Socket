@@ -2,7 +2,8 @@
 #define CORE_OPENGL_CONTEXT_H
 
 #include "renderer/graphic_context.h"
-#include <GLFW/glfw3.h>
+
+class GLFWwindow;
 
 namespace core
 {
@@ -13,8 +14,8 @@ namespace core
         virtual ~OpenGLContext() = default;
 
         virtual void init() override;
-        virtual void swap_buffers() override;
-    
+        virtual void swapBuffers() override;
+
     private:
         GLFWwindow* mWindow;
     };

@@ -11,7 +11,7 @@ namespace core
         virtual ~GraphicContext() = default;
 
         virtual void init() = 0;
-        virtual void swap_buffers() = 0;
+        virtual void swapBuffers() = 0;
 
         static Scope<GraphicContext> create(void* native_window);
     };

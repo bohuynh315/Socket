@@ -33,10 +33,10 @@ namespace core
         // Setup context for Opengl 4.1 Core
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // No Backward Compatibility
 
 #ifdef __APPLE__
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Allow Forward Compatibility
 #endif
 
         mWindow = glfwCreateWindow(mData.width, mData.height, mData.title, nullptr, nullptr);
@@ -54,50 +54,50 @@ namespace core
         glfwSetWindowUserPointer(mWindow, &mData);
 
         /* Window Callback */
-        glfwSetWindowCloseCallback(mWindow, [](GLFWwindow* window) {
+        glfwSetWindowCloseCallback(mWindow, [](GLFWwindow *window)
+                                   {
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
 
             WindowCloseEvent event;
-            data->event_callback(event);
-        });
+            data->event_callback(event); });
 
-        glfwSetWindowSizeCallback(mWindow, [](GLFWwindow* window, int width, int height) {
+        glfwSetWindowSizeCallback(mWindow, [](GLFWwindow *window, int width, int height)
+                                  {
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
             data->width = width;
             data->height = height;
 
             WindowResizeEvent event(width, height);
-            data->event_callback(event);
-        });
+            data->event_callback(event); });
 
-        glfwSetWindowPosCallback(mWindow, [](GLFWwindow* window, int xpos, int ypos) {
+        glfwSetWindowPosCallback(mWindow, [](GLFWwindow *window, int xpos, int ypos)
+                                 {
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
 
             WindowPosEvent event(xpos, ypos);
-            data->event_callback(event);
-        });
+            data->event_callback(event); });
 
         /* Mouse Callback */
-        glfwSetCursorPosCallback(mWindow, [](GLFWwindow* window, double xpos, double ypos) {
+        glfwSetCursorPosCallback(mWindow, [](GLFWwindow *window, double xpos, double ypos)
+                                 {
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
 
             MousePosEvent event(xpos, ypos);
-            data->event_callback(event);
-        });
+            data->event_callback(event); });
 
-        glfwSetCursorEnterCallback(mWindow, [](GLFWwindow* window, int entered) {
+        glfwSetCursorEnterCallback(mWindow, [](GLFWwindow *window, int entered)
+                                   {
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
 
             MouseEnterEvent event(entered);
-            data->event_callback(event);
-        });
+            data->event_callback(event); });
 
-        glfwSetScrollCallback(mWindow, [](GLFWwindow* window, double xoffset, double yoffset) {
+        glfwSetScrollCallback(mWindow, [](GLFWwindow *window, double xoffset, double yoffset)
+                              {
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
 
             MouseScrollEvent event(xoffset, yoffset);
-            data->event_callback(event);
-        });
+            data->event_callback(event); });
     }
 
     void GLFWWindow::shutdown()
@@ -107,7 +107,7 @@ namespace core
 
     void GLFWWindow::onUpdate()
     {
-        mContext->swap_buffers();
-        glfwPollEvents();
+        mContext->swapBuffers();
+        glfwPollEvents(); // Get and handle user input event
     }
 }

@@ -10,6 +10,7 @@ target_precompile_headers(${PROJECT_NAME} PUBLIC
 
 target_link_libraries(core PUBLIC
     glfw3
+    imgui
 )
 
 target_link_directories(core PUBLIC
