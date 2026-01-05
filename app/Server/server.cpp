@@ -63,6 +63,7 @@ core::Application *core::create()
     specs.width = APP_WIDTH;
     specs.height = APP_HEIGHT;
     specs.title = APP_TITLE;
+    specs.fps = 60;
 
     return new ServerApplication(specs);
 }

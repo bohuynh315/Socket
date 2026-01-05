@@ -1,4 +1,4 @@
-#include "window_glfw.h"
+#include "glfw_window.h"
 
 #include "logger.h"
 
@@ -55,49 +55,55 @@ namespace core
 
         /* Window Callback */
         glfwSetWindowCloseCallback(mWindow, [](GLFWwindow *window)
-                                   {
+        {
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
 
             WindowCloseEvent event;
-            data->event_callback(event); });
+            data->event_callback(event);
+        });
 
         glfwSetWindowSizeCallback(mWindow, [](GLFWwindow *window, int width, int height)
-                                  {
+        {
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
             data->width = width;
             data->height = height;
 
             WindowResizeEvent event(width, height);
-            data->event_callback(event); });
+            data->event_callback(event);
+        });
 
         glfwSetWindowPosCallback(mWindow, [](GLFWwindow *window, int xpos, int ypos)
-                                 {
+        {
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
 
             WindowPosEvent event(xpos, ypos);
-            data->event_callback(event); });
+            data->event_callback(event);
+        });
 
         /* Mouse Callback */
         glfwSetCursorPosCallback(mWindow, [](GLFWwindow *window, double xpos, double ypos)
-                                 {
+        {
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
 
             MousePosEvent event(xpos, ypos);
-            data->event_callback(event); });
+            data->event_callback(event);
+        });
 
         glfwSetCursorEnterCallback(mWindow, [](GLFWwindow *window, int entered)
-                                   {
+        {
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
 
             MouseEnterEvent event(entered);
-            data->event_callback(event); });
+            data->event_callback(event);
+        });
 
         glfwSetScrollCallback(mWindow, [](GLFWwindow *window, double xoffset, double yoffset)
-                              {
+        {
             WindowData *data = (WindowData*)glfwGetWindowUserPointer(window);
 
             MouseScrollEvent event(xoffset, yoffset);
-            data->event_callback(event); });
+            data->event_callback(event);
+        });
     }
 
     void GLFWWindow::shutdown()

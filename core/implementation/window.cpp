@@ -1,5 +1,5 @@
 #include "window.h"
-#include "platform/glfw/window_glfw.h"
+#include "platform/glfw/glfw_window.h"
 
 namespace core
 {

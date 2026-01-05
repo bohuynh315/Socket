@@ -13,6 +13,7 @@ namespace core
         int width;
         int height;
         const char* title;
+        float fps;
     } app_spec_t;
 
     class Application
@@ -43,6 +44,7 @@ namespace core
         app_spec_t mSpec;
         bool mRunning;
         Scope<Window> mWindow;
+        double mLastFrameTime = 0.0f;
 
     private:
         static Application *sInstance;

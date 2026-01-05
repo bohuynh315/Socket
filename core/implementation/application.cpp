@@ -2,6 +2,9 @@
 
 #include "logger.h"
 
+#include "platform/glfw/glfw_utils.h"
+#include "utils/timestep.h"
+
 namespace core
 {
     Application *Application::sInstance = nullptr;
@@ -25,6 +28,12 @@ namespace core
         onInit();
         while (mRunning)
         {
+            double time = Time::getTime();
+            Timestep timestep = time - mLastFrameTime;
+            mLastFrameTime = time;
+
+            LOG_INFO << "FPS: " << 1 / timestep;
+
             mWindow->onUpdate();
         }
         onShutDown();
