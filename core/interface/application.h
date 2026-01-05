@@ -5,6 +5,7 @@
 
 #include "event/application_event.h"
 #include "event/mouse_event.h"
+#include "layer_stack.h"
 
 namespace core
 {
@@ -44,6 +45,7 @@ namespace core
         app_spec_t mSpec;
         bool mRunning;
         Scope<Window> mWindow;
+        LayerStack mLayerStack;
         double mLastFrameTime = 0.0f;
 
     private:
