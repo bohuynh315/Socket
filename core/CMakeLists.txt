@@ -19,8 +19,7 @@ target_link_directories(core PUBLIC
 
 target_include_directories(core PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/implementation
-    ${CMAKE_CURRENT_SOURCE_DIR}/interface
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/include
 )
 

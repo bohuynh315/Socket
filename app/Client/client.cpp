@@ -1,6 +1,6 @@
-#include "entry.h"
-#include "logger.h"
-#include "socket/client.h"
+#include "Entry.h"
+#include "logger/Logger.h"
+#include "socket/Client.h"
 
 #define APP_WIDTH 380
 #define APP_HEIGHT 600

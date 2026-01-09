@@ -1,6 +1,6 @@
-#include "entry.h"
-#include "logger.h"
-#include "socket/server.h"
+#include "Entry.h"
+#include "logger/Logger.h"
+#include "socket/Server.h"
 
 #include <thread>
 
