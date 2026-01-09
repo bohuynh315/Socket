@@ -2,7 +2,7 @@
 #define CORE_WINDOW_H
 
 #include "Base.h"
-#include "Event.h"
+#include "event/Event.h"
 
 namespace core
 {

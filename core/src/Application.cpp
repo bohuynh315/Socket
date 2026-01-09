@@ -1,8 +1,11 @@
 #include "Application.h"
 
-#include "logger/Logger.h"
 #include "platform/glfw/GLFWUtils.h"
 #include "utils/Timestep.h"
+
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 namespace core
 {
@@ -25,6 +28,7 @@ namespace core
     void Application::run()
     {
         onInit();
+
         while (mRunning)
         {
             double time = Time::getTime();

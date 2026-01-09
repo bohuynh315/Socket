@@ -1,7 +1,5 @@
 #include "GLFWWindow.h"
 
-#include "logger/Logger.h"
-
 #include "event/ApplicationEvent.h"
 #include "event/MouseEvent.h"
 

@@ -6,7 +6,6 @@
 #include <arpa/inet.h>
 
 #include "SocketUtils.h"
-#include "logger/Logger.h"
 
 #define BACKLOG 10 /* How many pending connections queue will hold */
 

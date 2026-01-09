@@ -2,6 +2,7 @@
 #define CORE_APPLICATION_H
 
 #include "Window.h"
+#include "Base.h"
 
 #include "event/ApplicationEvent.h"
 #include "event/MouseEvent.h"

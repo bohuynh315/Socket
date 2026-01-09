@@ -4,7 +4,6 @@
 #include <unistd.h>
 
 #include "SocketUtils.h"
-#include "logger/Logger.h"
 
 namespace core {
     ClientImpl::ClientImpl(const char* address, int port)

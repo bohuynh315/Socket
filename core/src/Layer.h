@@ -4,7 +4,7 @@
 #include <string>
 
 #include "utils/Timestep.h"
-#include "Event.h"
+#include "event/Event.h"
 
 namespace core
 {
