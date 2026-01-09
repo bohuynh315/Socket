@@ -1,9 +1,9 @@
 #ifndef SERVER_IMPL_H
 #define SERVER_IMPL_H
 
-#include "socket/Server.h"
+#include "Server.h"
 #include "utils/ThreadPool.h"
-#include <thread>
+#include "SocketDefines.h"
 
 namespace core
 {

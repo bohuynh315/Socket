@@ -1,8 +1,9 @@
 #ifndef CLIENT_IMPL_H
 #define CLIENT_IMPL_H
 
-#include "socket/Client.h"
+#include "Client.h"
 #include <thread>
+#include "SocketDefines.h"
 
 namespace core {
     class ClientImpl : public Client

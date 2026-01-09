@@ -2,6 +2,7 @@
 #define CORE_DEFINE_H
 
 #include <memory>
+#include <functional>
 
 namespace core
 {

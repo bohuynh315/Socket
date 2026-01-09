@@ -3,6 +3,7 @@
 
 #include "Base.h"
 #include "Error.h"
+#include "SocketDefines.h"
 
 namespace core
 {
