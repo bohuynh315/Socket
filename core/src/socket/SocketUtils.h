@@ -2,7 +2,7 @@
 #define CORE_SOCKET_UTILS_H
 
 #include "Error.h"
-#include "Define.h"
+#include "Base.h"
 
 namespace core
 {

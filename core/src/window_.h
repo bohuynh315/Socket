@@ -1,7 +1,7 @@
 #ifndef CORE_WINDOW_H
 #define CORE_WINDOW_H
 
-#include "Define.h"
+#include "Base.h"
 #include "Event.h"
 
 namespace core

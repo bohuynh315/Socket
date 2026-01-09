@@ -1,7 +1,7 @@
 #ifndef CORE_ClIENT_H
 #define CORE_ClIENT_H
 
-#include "Define.h"
+#include "Base.h"
 #include "Error.h"
 
 namespace core

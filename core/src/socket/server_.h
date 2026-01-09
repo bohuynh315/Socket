@@ -1,7 +1,7 @@
 #ifndef CORE_SERVER_H
 #define CORE_SERVER_H
 
-#include "Define.h"
+#include "Base.h"
 #include "Error.h"
 
 namespace core

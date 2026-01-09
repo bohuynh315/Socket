@@ -1,7 +1,7 @@
 #ifndef CORE_GRAPHIC_CONTEXT_H
 #define CORE_GRAPHIC_CONTEXT_H
 
-#include "Define.h"
+#include "Base.h"
 
 namespace core
 {
