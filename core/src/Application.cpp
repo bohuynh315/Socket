@@ -3,9 +3,9 @@
 #include "platform/glfw/GLFWUtils.h"
 #include "utils/Timestep.h"
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
+#include "imgui/ImGuiLayer.h"
+
+#include <GLFW/glfw3.h>
 
 namespace core
 {
@@ -23,6 +23,9 @@ namespace core
         win_spec.mHeight = spec.height;
         mWindow = Window::create(win_spec);
         mWindow->setEventCallback(BIND_EVENT_FUNCTION(onEvent));
+
+        mFPSLayer = new ImGuiLayer("FPSLayer");
+        pushOverlay(mFPSLayer);
     }
 
     void Application::run()
@@ -31,12 +34,12 @@ namespace core
 
         while (mRunning)
         {
+            glClear(GL_COLOR_BUFFER_BIT);
             double time = Time::getTime();
-            Timestep timestep = time - mLastFrameTime;
+            Timestep ts = time - mLastFrameTime;
             mLastFrameTime = time;
 
-            LOG_INFO << "FPS: " << 1 / timestep;
-
+            mFPSLayer->onUpdate(ts);
             mWindow->onUpdate();
         }
         onShutDown();

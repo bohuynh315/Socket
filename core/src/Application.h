@@ -26,6 +26,7 @@ namespace core
         virtual void onInit() = 0;
         virtual void onShutDown() = 0;
         static Application& get() { return *sInstance; }
+        Window& getWindow() { return *mWindow; }
 
         void run();
 
@@ -50,6 +51,7 @@ namespace core
         bool mRunning;
         Scope<Window> mWindow;
         LayerStack mLayerStack;
+        Layer* mFPSLayer;
         double mLastFrameTime = 0.0f;
 
     private:
