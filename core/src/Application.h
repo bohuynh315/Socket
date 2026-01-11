@@ -29,6 +29,9 @@ namespace core
 
         void run();
 
+        void pushOverlay(Layer* layer);
+        void pushLayer(Layer* layer);
+
     public:
         Application() = default;
         Application(const app_spec_t &);

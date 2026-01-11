@@ -42,6 +42,18 @@ namespace core
         onShutDown();
     }
 
+    void Application::pushOverlay(Layer* layer)
+    {
+        mLayerStack.pushOverlay(layer);
+        layer->onAttach();
+    }
+
+    void Application::pushLayer(Layer* layer)
+    {
+        mLayerStack.pushLayer(layer);
+        layer->onAttach();
+    }
+
     void Application::onEvent(Event& e)
     {
         EventDispatcher dispatcher(e);
