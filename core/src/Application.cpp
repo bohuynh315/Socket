@@ -31,16 +31,27 @@ namespace core
     void Application::run()
     {
         onInit();
+        const double targetFPS = 120.0;
+        const double frameTime = 1.0 / targetFPS;
 
+        double lastTime = Time::getTime();
         while (mRunning)
         {
-            glClear(GL_COLOR_BUFFER_BIT);
-            double time = Time::getTime();
-            Timestep ts = time - mLastFrameTime;
-            mLastFrameTime = time;
+            double currentTime = Time::getTime();
+            Timestep ts = currentTime - lastTime;
 
-            mFPSLayer->onUpdate(ts);
-            mWindow->onUpdate();
+            if (ts >= frameTime) {
+                lastTime = currentTime;
+                glClear(GL_COLOR_BUFFER_BIT);
+                
+                // Render
+                for (Layer* layer : mLayerStack) {
+                    layer->onUpdate(ts);
+                }
+
+                // Swap buffer and poll events
+                mWindow->onUpdate();
+            }
         }
         onShutDown();
     }

@@ -52,7 +52,6 @@ namespace core
         Scope<Window> mWindow;
         LayerStack mLayerStack;
         Layer* mFPSLayer;
-        double mLastFrameTime = 0.0f;
 
     private:
         static Application *sInstance;
