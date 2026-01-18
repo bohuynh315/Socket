@@ -3,12 +3,16 @@
 #include "platform/glfw/GLFWUtils.h"
 #include "utils/Timestep.h"
 
+#include "renderer/Renderer.h"
 #include "imgui/ImGuiLayer.h"
 
 #include <GLFW/glfw3.h>
 
 namespace core
 {
+    const double TARGET_FPS = 60.0;
+    const double FRAME_TIME = 1.0 / TARGET_FPS;
+
     Application *Application::sInstance = nullptr;
 
     Application::Application(const app_spec_t &spec)
@@ -24,15 +28,20 @@ namespace core
         mWindow = Window::create(win_spec);
         mWindow->setEventCallback(BIND_EVENT_FUNCTION(onEvent));
 
+        Renderer::init();
+
         mFPSLayer = new ImGuiLayer("FPSLayer");
         pushOverlay(mFPSLayer);
+    }
+
+    Application::~Application()
+    {
+        Renderer::shutdown();
     }
 
     void Application::run()
     {
         onInit();
-        const double targetFPS = 120.0;
-        const double frameTime = 1.0 / targetFPS;
 
         double lastTime = Time::getTime();
         while (mRunning)
@@ -40,10 +49,9 @@ namespace core
             double currentTime = Time::getTime();
             Timestep ts = currentTime - lastTime;
 
-            if (ts >= frameTime) {
+            if (ts >= FRAME_TIME) {
                 lastTime = currentTime;
-                glClear(GL_COLOR_BUFFER_BIT);
-                
+
                 // Render
                 for (Layer* layer : mLayerStack) {
                     layer->onUpdate(ts);

@@ -7,6 +7,8 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
+#include "renderer/RenderCommand.h"
+
 namespace core
 {
     ImGuiLayer::ImGuiLayer(const std::string &name)
@@ -47,9 +49,11 @@ namespace core
 
     void ImGuiLayer::onUpdate(Timestep ts)
     {
+        RenderCommand::clear();
+
         // Get ts
         char buf[32];
-        snprintf(buf, sizeof(buf), "FPS: %.1f", 1 / ts);
+        snprintf(buf, sizeof(buf), "FPS: %d", static_cast<int>(ImGui::GetIO().Framerate));
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();

@@ -21,7 +21,7 @@ namespace core
     class Application
     {
     public:
-        virtual ~Application() = default;
+        virtual ~Application();
 
         virtual void onInit() = 0;
         virtual void onShutDown() = 0;
